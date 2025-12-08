@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Dapper.SqlBuilder" Version="2.1.66" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.19" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.19" />
@@ -18,11 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Infrastructure\Configuration\" />
     <Folder Include="Infrastructure\Services\" />
     <Folder Include="Interfaces\Services\" />
-    <Folder Include="Models\Entities\" />
-    <Folder Include="Models\Enums\" />
-    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\Entities\Financial\" />
+    <Folder Include="Models\Entities\ValueObject\" />
+    <Folder Include="Models\ViewModels\Financial\" />
+    <Folder Include="Models\ViewModels\Sales\" />
+    <Folder Include="Models\ViewModels\Production\" />
   </ItemGroup>
 
 </Project>

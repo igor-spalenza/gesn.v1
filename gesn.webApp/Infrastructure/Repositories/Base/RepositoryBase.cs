@@ -1,4 +1,8 @@
-﻿using gesn.webApp.Interfaces.Repositories.Base;
+﻿using Dapper;
+using gesn.webApp.Interfaces.Data;
+using gesn.webApp.Interfaces.Repositories.Base;
+using gesn.webApp.Models.Enums.Global;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
 
@@ -108,7 +112,7 @@ namespace gesn.webApp.Data.Repositories.Base
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
 
                 if (null != connection)
-                    flagDeleted = await connection.ExecuteAsync(query, new { StateCode = (int)ObjectState.Inactive, Id = id }) > 0;
+                    flagDeleted = await connection.ExecuteAsync(query, new { StateCode = (int)EObjectState.INACTIVE, Id = id }) > 0;
             }
 
             return flagDeleted;
