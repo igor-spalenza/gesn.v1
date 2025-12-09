@@ -100,14 +100,12 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Propriedade navegacional para categoria
         /// </summary>
-        public ProductCategory? CategoryNavigation { get; set; }
+        public OfferCategory? CategoryNavigation { get; set; }
 
         /// <summary>
         /// Construtor padrão
         /// </summary>
-        public Offer()
-        {
-        }
+        public Offer() { }
 
         /// <summary>
         /// Construtor com dados básicos
@@ -121,26 +119,20 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Obtém o nome para exibição
         /// </summary>
-        public string GetDisplayName()
-        {
-            return string.IsNullOrWhiteSpace(Name) ? "Produto sem nome" : Name;
-        }
+        public string GetDisplayName() =>
+            string.IsNullOrWhiteSpace(Name) ? "Produto sem nome" : Name;
 
         /// <summary>
         /// Obtém informações de preço formatadas
         /// </summary>
-        public string GetPriceInfo()
-        {
-            return $"R$ {Price:N2}";
-        }
+        public string GetPriceInfo() =>
+            $"R$ {Price:N2}";
 
         /// <summary>
         /// Obtém informações de preço unitário formatadas
         /// </summary>
-        public string GetUnitPriceInfo()
-        {
-            return $"R$ {UnitPrice:N2}";
-        }
+        public string GetUnitPriceInfo() =>
+            $"R$ {UnitPrice:N2}";
 
         /// <summary>
         /// Obtém informações do tempo de montagem formatadas
@@ -162,25 +154,19 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Verifica se o produto requer montagem
         /// </summary>
-        public bool RequiresAssembly()
-        {
-            return AssemblyTime > 0;
-        }
+        public bool RequiresAssembly() =>
+            AssemblyTime > 0;
 
         /// <summary>
         /// Verifica se o produto possui dados básicos completos
         /// </summary>
-        public virtual bool HasCompleteData()
-        {
-            return !string.IsNullOrWhiteSpace(Name) && Price >= 0;
-        }
+        public virtual bool HasCompleteData() =>
+            !string.IsNullOrWhiteSpace(Name) && Price >= 0;
 
         /// <summary>
         /// Override do ToString para exibir resumo do produto
         /// </summary>
-        public override string ToString()
-        {
-            return $"{GetDisplayName()} - {GetPriceInfo()}";
-        }
+        public override string ToString() =>
+            $"{GetDisplayName()} - {GetPriceInfo()}";
     }
 }

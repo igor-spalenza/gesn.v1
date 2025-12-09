@@ -2,7 +2,6 @@
 using gesn.webApp.Models.Enums.Sales;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
-using System.Net;
 
 namespace gesn.webApp.Models.Entities.Sales
 {
@@ -102,10 +101,10 @@ namespace gesn.webApp.Models.Entities.Sales
         [Display(Name = "Endereço de Entrega")]
         public string? DeliveryAddressId { get; set; }
 
-        /// <summary>
-        /// Endereço de entrega (navegação)
-        /// </summary>
-        public Address? DeliveryAddress { get; set; }
+        ///// <summary>
+        ///// Endereço de entrega (navegação)
+        ///// </summary>
+        //public Address? DeliveryAddress { get; set; }
 
         /// <summary>
         /// Indica se o pedido requer nota fiscal
@@ -120,10 +119,10 @@ namespace gesn.webApp.Models.Entities.Sales
         [Display(Name = "Dados Fiscais")]
         public string? FiscalDataId { get; set; }
 
-        /// <summary>
-        /// Dados fiscais (navegação)
-        /// </summary>
-        public FiscalData? FiscalData { get; set; }
+        ///// <summary>
+        ///// Dados fiscais (navegação)
+        ///// </summary>
+        //public FiscalData? FiscalData { get; set; }
         
         /// <summary>
         /// Número do lote de impressão
