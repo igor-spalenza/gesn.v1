@@ -1,7 +1,6 @@
 ﻿using gesn.webApp.Models.Entities.Base;
 using gesn.webApp.Models.Enums.Sales;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
 
 namespace gesn.webApp.Models.Entities.Sales
 {
