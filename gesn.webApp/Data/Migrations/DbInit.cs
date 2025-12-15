@@ -438,11 +438,9 @@ namespace gesn.webApp.Data.Migrations
 
                 // ========== EXECU��O DAS MIGRATIONS ==========
                 // Tabelas legadas
-                connection.Execute(createClienteTable);
-                connection.Execute(createPedidoTable);
 
                 // Value Objects (executados primeiro devido �s depend�ncias)
-                connection.Execute(createAddressTable);
+                connection.Execute(createAddressDataTable);
                 connection.Execute(createFiscalDataTable);
 
                 // Dom�nio de Vendas
