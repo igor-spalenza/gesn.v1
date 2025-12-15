@@ -100,7 +100,7 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Propriedade navegacional para categoria
         /// </summary>
-        public OfferCategory? CategoryNavigation { get; set; }
+        public Category? CategoryNavigation { get; set; }
 
         /// <summary>
         /// Construtor padrão

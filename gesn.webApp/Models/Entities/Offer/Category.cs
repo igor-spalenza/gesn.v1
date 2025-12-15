@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Models.Entities.Offer
 {
-    public class OfferCategory : Entity
+    public class Category : Entity
     {
         /// <summary>
         /// Nome da categoria
@@ -23,12 +23,12 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Construtor padrão
         /// </summary>
-        public OfferCategory() { }
+        public Category() { }
 
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public OfferCategory(string name, string? description = null)
+        public Category(string name, string? description = null)
         {
             Name = name;
             Description = description;

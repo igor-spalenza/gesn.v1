@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Admin\Repositories\" />
+    <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
     <Folder Include="Infrastructure\Configuration\NovaPasta\" />
     <Folder Include="Interfaces\Services\" />
@@ -34,6 +39,7 @@
     <Folder Include="Models\ViewModels\Financial\" />
     <Folder Include="Models\ViewModels\Sales\" />
     <Folder Include="Models\ViewModels\Production\" />
+    <Folder Include="Context\" />
   </ItemGroup>
 
 </Project>

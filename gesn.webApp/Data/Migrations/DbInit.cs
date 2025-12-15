@@ -18,33 +18,9 @@ namespace gesn.webApp.Data.Migrations
             {
                 connection.Open();
 
-                // ========== TABELAS LEGADAS (MANTIDAS PARA COMPATIBILIDADE) ==========
-                var createClienteTable = @"
-                CREATE TABLE IF NOT EXISTS Cliente (
-                    ClienteId INTEGER NOT NULL UNIQUE,
-                    ClienteIdGoogleContacts BLOB,
-                    DataCadastro TEXT NOT NULL,
-                    Nome TEXT NOT NULL,
-                    Sobrenome TEXT NOT NULL,
-                    Cpf TEXT,
-                    TelefonePrincipal INTEGER NOT NULL,
-                    DataModificacao TEXT NOT NULL,
-                    PRIMARY KEY(ClienteId AUTOINCREMENT)
-                );";
-
-                var createPedidoTable = @"
-                CREATE TABLE IF NOT EXISTS Pedido (
-                    PedidoId INTEGER NOT NULL UNIQUE,
-                    ClienteId INTEGER NOT NULL,
-	                DataCadastro TEXT NOT NULL,
-	                DataPedido TEXT NOT NULL,
-	                DataModificacao	TEXT NOT NULL,
-	                PRIMARY KEY(PedidoId AUTOINCREMENT)
-                );";
-
                 // ========== VALUE OBJECTS ==========
-                var createAddressTable = @"
-                CREATE TABLE IF NOT EXISTS Address (
+                var createAddressDataTable = @"
+                CREATE TABLE IF NOT EXISTS AddressData (
                     Id TEXT NOT NULL UNIQUE,
                     Street TEXT NOT NULL,
                     Number TEXT,
@@ -68,98 +44,8 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id)
                 );";
 
-                // ========== DOM�NIO DE VENDAS ==========
-                var createCustomerTable = @"
-                CREATE TABLE IF NOT EXISTS Customer (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    FirstName TEXT NOT NULL,
-                    LastName TEXT,
-                    Email TEXT,
-                    Phone TEXT,
-                    DocumentNumber TEXT,
-                    DocumentType TEXT,
-                    GoogleContactId TEXT,
-                    AddressId TEXT,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(AddressId) REFERENCES Address(Id)
-                );";
 
-                var createOrderTable = @"
-                CREATE TABLE IF NOT EXISTS OrderEntry (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    NumberSequence TEXT NOT NULL,
-                    OrderDate TEXT,
-                    DeliveryDate TEXT,
-                    CustomerId TEXT NOT NULL,
-                    Status TEXT NOT NULL DEFAULT 'Draft',
-                    Type TEXT NOT NULL,
-                    TotalAmount REAL NOT NULL DEFAULT 0,
-                    Subtotal REAL NOT NULL DEFAULT 0,
-                    TaxAmount REAL NOT NULL DEFAULT 0,
-                    DiscountAmount REAL NOT NULL DEFAULT 0,
-                    Notes TEXT,
-                    DeliveryAddressId TEXT,
-                    RequiresFiscalReceipt INTEGER NOT NULL DEFAULT 0,
-                    FiscalDataId TEXT,
-                    PrintStatus TEXT DEFAULT 'NotPrinted',
-                    PrintBatchNumber INTEGER,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(CustomerId) REFERENCES Customer(Id),
-                    FOREIGN KEY(DeliveryAddressId) REFERENCES Address(Id),
-                    FOREIGN KEY(FiscalDataId) REFERENCES FiscalData(Id)
-                );";
-
-                var createOrderItemTable = @"
-                CREATE TABLE IF NOT EXISTS OrderItem (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    OrderId TEXT NOT NULL,
-                    ProductId TEXT NOT NULL,
-                    Quantity INTEGER NOT NULL,
-                    UnitPrice REAL NOT NULL,
-                    Discount REAL NOT NULL DEFAULT 0,
-                    Notes TEXT,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id)
-                );";
-
-                var createContractTable = @"
-                CREATE TABLE IF NOT EXISTS Contract (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    Number TEXT NOT NULL,
-                    OrderId TEXT NOT NULL,
-                    CreationDate TEXT NOT NULL,
-                    ExpirationDate TEXT,
-                    Status TEXT NOT NULL DEFAULT 'Draft',
-                    FileUrl TEXT,
-                    SignatureUrl TEXT,
-                    CustomerSignedAt TEXT,
-                    CompanySignedAt TEXT,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id)
-                );";
-
-                // ========== DOM�NIO DE PRODU��O ==========
+                // ========== DOMINIO DE OFERTA ==========
                 var createProductCategoryTable = @"
                 CREATE TABLE IF NOT EXISTS ProductCategory (
                     Id TEXT NOT NULL UNIQUE,
@@ -307,6 +193,97 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id AUTOINCREMENT),
                     FOREIGN KEY(DemandId) REFERENCES Demand(Id),
                     FOREIGN KEY(ProductComponentId) REFERENCES ProductComponent(Id)
+                );";
+
+                // ========== DOM�NIO DE VENDAS ==========
+                var createCustomerTable = @"
+                CREATE TABLE IF NOT EXISTS Customer (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    FirstName TEXT NOT NULL,
+                    LastName TEXT,
+                    Email TEXT,
+                    Phone TEXT,
+                    DocumentNumber TEXT,
+                    DocumentType TEXT,
+                    GoogleContactId TEXT,
+                    AddressId TEXT,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(AddressId) REFERENCES Address(Id)
+                );";
+
+                var createOrderTable = @"
+                CREATE TABLE IF NOT EXISTS OrderEntry (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    NumberSequence TEXT NOT NULL,
+                    OrderDate TEXT,
+                    DeliveryDate TEXT,
+                    CustomerId TEXT NOT NULL,
+                    Status TEXT NOT NULL DEFAULT 'Draft',
+                    Type TEXT NOT NULL,
+                    TotalAmount REAL NOT NULL DEFAULT 0,
+                    Subtotal REAL NOT NULL DEFAULT 0,
+                    TaxAmount REAL NOT NULL DEFAULT 0,
+                    DiscountAmount REAL NOT NULL DEFAULT 0,
+                    Notes TEXT,
+                    DeliveryAddressId TEXT,
+                    RequiresFiscalReceipt INTEGER NOT NULL DEFAULT 0,
+                    FiscalDataId TEXT,
+                    PrintStatus TEXT DEFAULT 'NotPrinted',
+                    PrintBatchNumber INTEGER,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(CustomerId) REFERENCES Customer(Id),
+                    FOREIGN KEY(DeliveryAddressId) REFERENCES Address(Id),
+                    FOREIGN KEY(FiscalDataId) REFERENCES FiscalData(Id)
+                );";
+
+                var createOrderItemTable = @"
+                CREATE TABLE IF NOT EXISTS OrderItem (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    OrderId TEXT NOT NULL,
+                    ProductId TEXT NOT NULL,
+                    Quantity INTEGER NOT NULL,
+                    UnitPrice REAL NOT NULL,
+                    Discount REAL NOT NULL DEFAULT 0,
+                    Notes TEXT,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id),
+                    FOREIGN KEY(ProductId) REFERENCES Product(Id)
+                );";
+
+                var createContractTable = @"
+                CREATE TABLE IF NOT EXISTS Contract (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    Number TEXT NOT NULL,
+                    OrderId TEXT NOT NULL,
+                    CreationDate TEXT NOT NULL,
+                    ExpirationDate TEXT,
+                    Status TEXT NOT NULL DEFAULT 'Draft',
+                    FileUrl TEXT,
+                    SignatureUrl TEXT,
+                    CustomerSignedAt TEXT,
+                    CompanySignedAt TEXT,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id)
                 );";
 
                 var createDemandTable = @"
