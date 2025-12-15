@@ -19,6 +19,7 @@ namespace gesn.webApp.Data.Migrations
                 connection.Open();
 
                 // ========== VALUE OBJECTS ==========
+                #region VALUE OBJECTS
                 var createAddressDataTable = @"
                 CREATE TABLE IF NOT EXISTS AddressData (
                     Id TEXT NOT NULL UNIQUE,
@@ -44,10 +45,22 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id)
                 );";
 
+                var createContactDataTable = @"
+                CREATE TABLE IF NOT EXISTS ContactData (
+                    Id TEXT NOT NULL UNIQUE,
+                    TaxNumber TEXT,
+                    StateRegistration TEXT,
+                    MunicipalRegistration TEXT,
+                    CompanyName TEXT,
+                    TradeName TEXT,
+                    PRIMARY KEY(Id)
+                );";
+                #endregion
 
                 // ========== DOMINIO DE OFERTA ==========
-                var createProductCategoryTable = @"
-                CREATE TABLE IF NOT EXISTS ProductCategory (
+                #region OFERTA
+                var createCategoryTable = @"
+                CREATE TABLE IF NOT EXISTS Category (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
@@ -60,8 +73,8 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id)
                 );";
 
-                var createSupplierTable = @"
-                CREATE TABLE IF NOT EXISTS Supplier (
+                var createTypeTable = @"
+                CREATE TABLE IF NOT EXISTS Type (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
@@ -69,19 +82,13 @@ namespace gesn.webApp.Data.Migrations
                     LastModifiedBy TEXT,
                     StateCode INTEGER NOT NULL DEFAULT 1,
                     Name TEXT NOT NULL,
-                    CompanyName TEXT,
-                    DocumentNumber TEXT,
-                    DocumentType TEXT,
-                    Email TEXT,
-                    Phone TEXT,
-                    AddressId TEXT,
+                    Description TEXT,
                     IsActive INTEGER NOT NULL DEFAULT 1,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(AddressId) REFERENCES Address(Id)
+                    PRIMARY KEY(Id)
                 );";
 
-                var createProductTable = @"
-                CREATE TABLE IF NOT EXISTS Product (
+                var createOfferTable = @"
+                CREATE TABLE IF NOT EXISTS Offer (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
@@ -102,9 +109,9 @@ namespace gesn.webApp.Data.Migrations
                     AssemblyTime INTEGER DEFAULT 0,
                     AssemblyInstructions TEXT,
                     IsProductOfCatalog TEXT,
-                    ProductType TEXT NOT NULL CHECK (ProductType IN ('Simple', 'Composite', 'Group')),
+                    OfferType TEXT NOT NULL CHECK (OfferType IN ('Simple', 'Composite', 'Group')),
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(CategoryId) REFERENCES ProductCategory(Id)
+                    FOREIGN KEY(CategoryId) REFERENCES Category(Id)
                 );";
                 /*MinStock INTEGER DEFAULT 0,
                 CurrentStock INTEGER DEFAULT 0,
@@ -114,17 +121,18 @@ namespace gesn.webApp.Data.Migrations
                 MaxItemsAllowed INTEGER,
                 */
 
-                var createProductGroupItemTable = @"
-                CREATE TABLE IF NOT EXISTS ProductGroupItem (
+                var createOfferGroupItemTable = @"
+                CREATE TABLE IF NOT EXISTS OfferGroupItem (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
                     LastModifiedAt TEXT,
                     LastModifiedBy TEXT,
                     StateCode INTEGER NOT NULL DEFAULT 1,
-                    ProductId TEXT,
-                    ProductGroupId TEXT NOT NULL,
-                    ProductCategoryId TEXT,
+                    OfferId TEXT,
+                    OfferGroupId TEXT NOT NULL,
+                    OfferCategoryId TEXT,
+                    OfferCategoryName TEXT,
                     Quantity INTEGER NOT NULL DEFAULT 1,
                     MinQuantity INTEGER NOT NULL DEFAULT 1,
                     MaxQuantity INTEGER,
@@ -132,29 +140,69 @@ namespace gesn.webApp.Data.Migrations
                     IsOptional INTEGER NOT NULL DEFAULT 0,
                     ExtraPrice REAL DEFAULT 0,
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id),
-                    FOREIGN KEY(ProductGroupId) REFERENCES Product(Id),
-                    FOREIGN KEY(ProductCategoryId) REFERENCES ProductCategory(Id)
-
+                    FOREIGN KEY(OfferId) REFERENCES Offer(Id),
+                    FOREIGN KEY(OfferGroupId) REFERENCES Offer(Id),
+                    FOREIGN KEY(OfferCategoryId) REFERENCES OfferCategory(Id)
                 );";
 
-                var createCompositeProductXHierarchyTable = @"
-                CREATE TABLE IF NOT EXISTS CompositeProductXHierarchy (
-                    Id INTEGER NOT NULL UNIQUE,
-                    ProductComponentHierarchyId TEXT NOT NULL,
-                    ProductId TEXT NOT NULL,
+                var createOfferIngredientTable = @"
+                CREATE TABLE IF NOT EXISTS OfferIngredient (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    OfferId TEXT NOT NULL,
+                    IngredientId TEXT NOT NULL,
+                    Quantity REAL NOT NULL,
+                    Unit TEXT NOT NULL,
+                    IsOptional INTEGER NOT NULL DEFAULT 0,
+                    Notes TEXT,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(OfferId) REFERENCES Offer(Id),
+                    FOREIGN KEY(IngredientId) REFERENCES Ingredient(Id)
+                );";
+
+                var createOfferGroupExchangeRuleTable = @"
+                CREATE TABLE IF NOT EXISTS OfferGroupExchangeRule (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    ProductGroupId TEXT NOT NULL,
+                    SourceGroupItemId TEXT NOT NULL,
+                    SourceGroupItemWeight INTEGER NOT NULL DEFAULT 1,
+                    TargetGroupItemId TEXT NOT NULL,
+                    TargetGroupItemWeight INTEGER NOT NULL DEFAULT 1,
+                    ExchangeRatio REAL NOT NULL DEFAULT 1,
+                    IsActive INTEGER NOT NULL DEFAULT 1,
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(SourceGroupItemId) REFERENCES OfferGroupItem(Id),
+                    FOREIGN KEY(TargetGroupItemId) REFERENCES OfferGroupItem(Id)
+                );";
+
+                var createCompositeOfferTable = @"
+                CREATE TABLE IF NOT EXISTS CompositeOffer (
+                    Id TEXT NOT NULL UNIQUE,
+                    OfferHierarchyId TEXT NOT NULL,
+                    OfferHierarchyName TEXT,
+                    OfferId TEXT NOT NULL,
+                    OfferName TEXT,
                     MinQuantity INTEGER NOT NULL,
                     MaxQuantity INTEGER,
                     IsOptional INTEGER NOT NULL DEFAULT 0,
                     AssemblyOrder INTEGER NOT NULL,
                     Notes TEXT,
-                    PRIMARY KEY(Id AUTOINCREMENT),
-                    FOREIGN KEY(ProductComponentHierarchyId) REFERENCES ProductComponentHierarchy(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id)
+                    PRIMARY KEY(Id),
+                    FOREIGN KEY(OfferHierarchyId) REFERENCES OfferHierarchy(Id),
+                    FOREIGN KEY(OfferId) REFERENCES Offer(Id)
                 );";
 
-                var createProductComponentHierarchyTable = @"
-                CREATE TABLE IF NOT EXISTS ProductComponentHierarchy (
+                var createOfferHierarchyTable = @"
+                CREATE TABLE IF NOT EXISTS OfferHierarchy (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
@@ -167,35 +215,25 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id)
                 );";
 
-                var createProductComponentTable = @"
-                CREATE TABLE IF NOT EXISTS ProductComponent (
+                var createOfferComponentTable = @"
+                CREATE TABLE IF NOT EXISTS OfferComponent (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
                     CreatedBy TEXT NOT NULL,
                     LastModifiedAt TEXT,
                     LastModifiedBy TEXT,
                     StateCode INTEGER NOT NULL DEFAULT 1,
-
                     Name TEXT NOT NULL,
                     Description TEXT,
-                    ProductComponentHierarchyId TEXT NOT NULL,
+                    OfferHierarchyId TEXT NOT NULL,
                     AdditionalCost REAL DEFAULT 0,
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(ProductComponentHierarchyId) REFERENCES ProductComponentHierarchy(Id)
+                    FOREIGN KEY(OfferHierarchyId) REFERENCES OfferHierarchy(Id)
                 );";
+                #endregion
 
-                var createProductCompositionTable = @"
-                CREATE TABLE IF NOT EXISTS ProductComposition (
-                    Id INTEGER NOT NULL UNIQUE,
-                    DemandId TEXT NOT NULL,
-                    ProductComponentId TEXT NOT NULL,
-                    HierarchyName TEXT NOT NULL,
-                    PRIMARY KEY(Id AUTOINCREMENT),
-                    FOREIGN KEY(DemandId) REFERENCES Demand(Id),
-                    FOREIGN KEY(ProductComponentId) REFERENCES ProductComponent(Id)
-                );";
-
-                // ========== DOM�NIO DE VENDAS ==========
+                // ========== DOMINIO DE VENDAS ==========
+                #region VENDAS
                 var createCustomerTable = @"
                 CREATE TABLE IF NOT EXISTS Customer (
                     Id TEXT NOT NULL UNIQUE,
@@ -213,10 +251,10 @@ namespace gesn.webApp.Data.Migrations
                     GoogleContactId TEXT,
                     AddressId TEXT,
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(AddressId) REFERENCES Address(Id)
                 );";
+                    //FOREIGN KEY(AddressDataId) REFERENCES AddressData(Id)
 
-                var createOrderTable = @"
+                var createOrderEntryTable = @"
                 CREATE TABLE IF NOT EXISTS OrderEntry (
                     Id TEXT NOT NULL UNIQUE,
                     CreatedAt TEXT NOT NULL,
@@ -242,9 +280,9 @@ namespace gesn.webApp.Data.Migrations
                     PrintBatchNumber INTEGER,
                     PRIMARY KEY(Id),
                     FOREIGN KEY(CustomerId) REFERENCES Customer(Id),
-                    FOREIGN KEY(DeliveryAddressId) REFERENCES Address(Id),
-                    FOREIGN KEY(FiscalDataId) REFERENCES FiscalData(Id)
                 );";
+                    //FOREIGN KEY(DeliveryAddressId) REFERENCES AddressData(Id),
+                    //FOREIGN KEY(FiscalDataId) REFERENCES FiscalData(Id)
 
                 var createOrderItemTable = @"
                 CREATE TABLE IF NOT EXISTS OrderItem (
@@ -254,15 +292,15 @@ namespace gesn.webApp.Data.Migrations
                     LastModifiedAt TEXT,
                     LastModifiedBy TEXT,
                     StateCode INTEGER NOT NULL DEFAULT 1,
-                    OrderId TEXT NOT NULL,
-                    ProductId TEXT NOT NULL,
+                    OrderEntryId TEXT NOT NULL,
+                    OfferId TEXT NOT NULL,
                     Quantity INTEGER NOT NULL,
                     UnitPrice REAL NOT NULL,
                     Discount REAL NOT NULL DEFAULT 0,
                     Notes TEXT,
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id)
+                    FOREIGN KEY(OrderEntryId) REFERENCES OrderEntry(Id),
+                    FOREIGN KEY(OfferId) REFERENCES Offer(Id)
                 );";
 
                 var createContractTable = @"
@@ -274,7 +312,7 @@ namespace gesn.webApp.Data.Migrations
                     LastModifiedBy TEXT,
                     StateCode INTEGER NOT NULL DEFAULT 1,
                     Number TEXT NOT NULL,
-                    OrderId TEXT NOT NULL,
+                    OrderEntryId TEXT NOT NULL,
                     CreationDate TEXT NOT NULL,
                     ExpirationDate TEXT,
                     Status TEXT NOT NULL DEFAULT 'Draft',
@@ -283,9 +321,13 @@ namespace gesn.webApp.Data.Migrations
                     CustomerSignedAt TEXT,
                     CompanySignedAt TEXT,
                     PRIMARY KEY(Id),
-                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id)
+                    FOREIGN KEY(OrderEntryId) REFERENCES OrderEntry(Id)
                 );";
+                #endregion
 
+
+                // ========== DOMINIO DE PRODUCAO ==========
+                #region PRODUCAO
                 var createDemandTable = @"
                 CREATE TABLE IF NOT EXISTS Demand (
                     Id TEXT NOT NULL UNIQUE,
@@ -296,14 +338,25 @@ namespace gesn.webApp.Data.Migrations
                     StateCode INTEGER NOT NULL DEFAULT 1,
                     OrderItemId TEXT NOT NULL,
                     ProductionOrderId TEXT,
-                    ProductId TEXT NOT NULL,
+                    OfferId TEXT NOT NULL,
                     Quantity TEXT NOT NULL,
                     DemandStatus TEXT NOT NULL DEFAULT 'Pending',
                     Notes TEXT,
                     PRIMARY KEY(Id),
                     FOREIGN KEY(OrderItemId) REFERENCES OrderItem(Id),
                     FOREIGN KEY(ProductionOrderId) REFERENCES ProductionOrder(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id)
+                    FOREIGN KEY(OfferId) REFERENCES Offer(Id)
+                );";
+
+                var createOfferCompositionTable = @"
+                CREATE TABLE IF NOT EXISTS OfferComposition (
+                    Id INTEGER NOT NULL UNIQUE,
+                    DemandId TEXT NOT NULL,
+                    OfferComponentId TEXT NOT NULL,
+                    HierarchyName TEXT NOT NULL,
+                    PRIMARY KEY(Id AUTOINCREMENT),
+                    FOREIGN KEY(DemandId) REFERENCES Demand(Id),
+                    FOREIGN KEY(OfferComponentId) REFERENCES OfferComponent(Id)
                 );";
 
                 var createProductionOrderTable = @"
@@ -323,6 +376,28 @@ namespace gesn.webApp.Data.Migrations
                     ConsumptionTime TEXT,
                     PRIMARY KEY(Id),
                     FOREIGN KEY(OrderEntryId) REFERENCES OrderEntry(Id)
+                );";
+                #endregion
+
+
+                // ========== DOMINIO DE ESTOQUE ==========
+                #region ESTOQUE
+                var createSupplierTable = @"
+                CREATE TABLE IF NOT EXISTS Supplier (
+                    Id TEXT NOT NULL UNIQUE,
+                    CreatedAt TEXT NOT NULL,
+                    CreatedBy TEXT NOT NULL,
+                    LastModifiedAt TEXT,
+                    LastModifiedBy TEXT,
+                    StateCode INTEGER NOT NULL DEFAULT 1,
+                    Name TEXT NOT NULL,
+                    CompanyName TEXT,
+                    DocumentNumber TEXT,
+                    DocumentType TEXT,
+                    Email TEXT,
+                    Phone TEXT,
+                    IsActive INTEGER NOT NULL DEFAULT 1,
+                    PRIMARY KEY(Id),
                 );";
 
                 var createIngredientTable = @"
@@ -345,48 +420,10 @@ namespace gesn.webApp.Data.Migrations
                     PRIMARY KEY(Id),
                     FOREIGN KEY(SupplierId) REFERENCES Supplier(Id)
                 );";
+                #endregion
 
-                var createProductIngredientTable = @"
-                CREATE TABLE IF NOT EXISTS ProductIngredient (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    ProductId TEXT NOT NULL,
-                    IngredientId TEXT NOT NULL,
-                    Quantity REAL NOT NULL,
-                    Unit TEXT NOT NULL,
-                    IsOptional INTEGER NOT NULL DEFAULT 0,
-                    Notes TEXT,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(ProductId) REFERENCES Product(Id),
-                    FOREIGN KEY(IngredientId) REFERENCES Ingredient(Id)
-                );";
-
-                var createProductGroupExchangeRuleTable = @"
-                CREATE TABLE IF NOT EXISTS ProductGroupExchangeRule (
-                    Id TEXT NOT NULL UNIQUE,
-                    CreatedAt TEXT NOT NULL,
-                    CreatedBy TEXT NOT NULL,
-                    LastModifiedAt TEXT,
-                    LastModifiedBy TEXT,
-                    StateCode INTEGER NOT NULL DEFAULT 1,
-                    ProductGroupId TEXT NOT NULL,
-                    SourceGroupItemId TEXT NOT NULL,
-                    SourceGroupItemWeight INTEGER NOT NULL DEFAULT 1,
-                    TargetGroupItemId TEXT NOT NULL,
-                    TargetGroupItemWeight INTEGER NOT NULL DEFAULT 1,
-                    ExchangeRatio REAL NOT NULL DEFAULT 1,
-                    IsActive INTEGER NOT NULL DEFAULT 1,
-                    PRIMARY KEY(Id),
-                    FOREIGN KEY(ProductGroupId) REFERENCES Product(Id),
-                    FOREIGN KEY(SourceGroupItemId) REFERENCES ProductGroupItem(Id),
-                    FOREIGN KEY(TargetGroupItemId) REFERENCES ProductGroupItem(Id)
-                );";
-
-                // ========== DOM�NIO FINANCEIRO ==========
+                // ========== DOMINIO FINANCEIRO ==========
+                #region FINANCEIRO
                 var createTransactionCategoryTable = @"
                 CREATE TABLE IF NOT EXISTS TransactionCategory (
                     Id TEXT NOT NULL UNIQUE,
@@ -430,46 +467,49 @@ namespace gesn.webApp.Data.Migrations
                     Type TEXT NOT NULL,
                     Category TEXT NOT NULL,
                     PaymentMethodId TEXT,
-                    OrderId TEXT,
+                    OrderEntryId TEXT,
                     PRIMARY KEY(Id),
                     FOREIGN KEY(PaymentMethodId) REFERENCES PaymentMethod(Id),
-                    FOREIGN KEY(OrderId) REFERENCES OrderEntry(Id)
+                    FOREIGN KEY(OrderEntryId) REFERENCES OrderEntry(Id)
                 );";
+                #endregion
 
-                // ========== EXECU��O DAS MIGRATIONS ==========
-                // Tabelas legadas
-                connection.Execute(createClienteTable);
-                connection.Execute(createPedidoTable);
 
-                // Value Objects (executados primeiro devido �s depend�ncias)
-                connection.Execute(createAddressTable);
+                // Value Objects 
+                connection.Execute(createAddressDataTable);
+                connection.Execute(createContactDataTable);
                 connection.Execute(createFiscalDataTable);
 
-                // Dom�nio de Vendas
+
+                // Dominio de Oferta
+                connection.Execute(createCategoryTable);
+                connection.Execute(createTypeTable);
+
+                connection.Execute(createOfferHierarchyTable);
+                connection.Execute(createOfferComponentTable);
+                connection.Execute(createOfferTable);
+                connection.Execute(createCompositeOfferTable);
+                connection.Execute(createOfferGroupItemTable);
+                connection.Execute(createOfferGroupExchangeRuleTable);
+                //connection.Execute(createOfferIngredientTable); Concluir criação do novo RECIPE
+
+
+                // Dominio de Vendas
                 connection.Execute(createCustomerTable);
-                connection.Execute(createOrderTable);
+                connection.Execute(createOrderEntryTable);
                 connection.Execute(createOrderItemTable);
                 connection.Execute(createContractTable);
 
-                // Dom�nio de Produ��o
-                connection.Execute(createSupplierTable);
 
-                connection.Execute(createProductCategoryTable);
-                connection.Execute(createProductTable);
-
-                connection.Execute(createProductGroupItemTable);
-                connection.Execute(createProductGroupExchangeRuleTable);
-
-                connection.Execute(createProductComponentHierarchyTable);
-                connection.Execute(createCompositeProductXHierarchyTable);
-                connection.Execute(createProductComponentTable);
-
+                // Dominio de Producao
                 connection.Execute(createProductionOrderTable);
                 connection.Execute(createDemandTable);
-                connection.Execute(createProductCompositionTable);
+                connection.Execute(createOfferCompositionTable);
 
+
+                // Dominio de Estoque
+                connection.Execute(createSupplierTable);
                 connection.Execute(createIngredientTable);
-                connection.Execute(createProductIngredientTable);
 
                 // Dom�nio Financeiro
                 connection.Execute(createTransactionCategoryTable);
