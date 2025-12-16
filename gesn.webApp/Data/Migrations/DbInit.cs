@@ -232,6 +232,7 @@ namespace gesn.webApp.Data.Migrations
                 );";
                 #endregion
 
+
                 // ========== DOMINIO DE VENDAS ==========
                 #region VENDAS
                 var createCustomerTable = @"
@@ -422,6 +423,7 @@ namespace gesn.webApp.Data.Migrations
                 );";
                 #endregion
 
+
                 // ========== DOMINIO FINANCEIRO ==========
                 #region FINANCEIRO
                 var createTransactionCategoryTable = @"
@@ -474,10 +476,8 @@ namespace gesn.webApp.Data.Migrations
                 );";
                 #endregion
 
-                // ========== EXECU��O DAS MIGRATIONS ==========
-                // Tabelas legadas
-                connection.Execute(createClienteTable);
-                connection.Execute(createPedidoTable);
+
+                // ========== MIGRATIONS.Execute ==========
 
                 // Value Objects 
                 connection.Execute(createAddressDataTable);
@@ -491,14 +491,18 @@ namespace gesn.webApp.Data.Migrations
 
                 connection.Execute(createOfferHierarchyTable);
                 connection.Execute(createOfferComponentTable);
+
                 connection.Execute(createOfferTable);
                 connection.Execute(createCompositeOfferTable);
+
                 connection.Execute(createOfferGroupItemTable);
                 connection.Execute(createOfferGroupExchangeRuleTable);
+
                 //connection.Execute(createOfferIngredientTable); Concluir criação do novo RECIPE
 
 
                 // Dominio de Vendas
+                //connection.Execute(createCustomerDataTable);
                 connection.Execute(createCustomerTable);
                 connection.Execute(createOrderEntryTable);
                 connection.Execute(createOrderItemTable);
