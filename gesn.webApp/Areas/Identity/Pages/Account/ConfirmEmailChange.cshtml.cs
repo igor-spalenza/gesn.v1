@@ -1,14 +1,12 @@
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using gesn.webApp.Areas.Identity.Data.Models.Role;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
-namespace GesN.Web.Areas.Identity.Pages.Account
+namespace gesn.webApp.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ConfirmEmailChangeModel : PageModel

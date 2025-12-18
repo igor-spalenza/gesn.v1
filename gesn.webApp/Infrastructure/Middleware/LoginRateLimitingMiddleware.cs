@@ -18,43 +18,51 @@ namespace gesn.webApp.Infrastructure.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (context.Request.Path.StartsWithSegments("/Identity/Account/Login") &&
-                HttpMethods.IsPost(context.Request.Method))
+            try
             {
-                var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-                var cacheKey = $"login_attempts_{ipAddress}";
-
-                var attempts = _cache.GetOrCreate(cacheKey, entry =>
+                if (context.Request.Path.StartsWithSegments("/Identity/Account/Login") &&
+                    HttpMethods.IsPost(context.Request.Method))
                 {
-                    entry.AbsoluteExpirationRelativeToNow = _lockoutTime;
-                    return new LoginAttemptInfo { Count = 0, LastAttempt = DateTime.UtcNow };
-                });
+                    var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                    var cacheKey = $"login_attempts_{ipAddress}";
 
-                if (attempts.Count >= _maxAttempts)
-                {
-                    var timeSinceLastAttempt = DateTime.UtcNow - attempts.LastAttempt;
-                    if (timeSinceLastAttempt < _lockoutTime)
+                    var attempts = _cache.GetOrCreate(cacheKey, entry =>
                     {
-                        context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-                        await context.Response.WriteAsJsonAsync(new
+                        entry.AbsoluteExpirationRelativeToNow = _lockoutTime;
+                        return new LoginAttemptInfo { Count = 0, LastAttempt = DateTime.UtcNow };
+                    });
+
+                    if (attempts.Count >= _maxAttempts)
+                    {
+                        var timeSinceLastAttempt = DateTime.UtcNow - attempts.LastAttempt;
+                        if (timeSinceLastAttempt < _lockoutTime)
                         {
-                            error = "Too many login attempts",
-                            retryAfter = (_lockoutTime - timeSinceLastAttempt).TotalSeconds
-                        });
-                        return;
+                            context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+                            await context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "Too many login attempts",
+                                retryAfter = (_lockoutTime - timeSinceLastAttempt).TotalSeconds
+                            });
+                            return;
+                        }
+                        else
+                        {
+                            _cache.Remove(cacheKey);
+                        }
                     }
-                    else
-                    {
-                        _cache.Remove(cacheKey);
-                    }
+
+                    attempts.Count++;
+                    attempts.LastAttempt = DateTime.UtcNow;
+                    _cache.Set(cacheKey, attempts, _lockoutTime);
                 }
 
-                attempts.Count++;
-                attempts.LastAttempt = DateTime.UtcNow;
-                _cache.Set(cacheKey, attempts, _lockoutTime);
+                await _next(context);
             }
+            catch (Exception e)
+            {
 
-            await _next(context);
+                throw e;
+            }
         }
 
         private class LoginAttemptInfo

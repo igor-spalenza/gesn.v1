@@ -85,9 +85,7 @@ namespace gesn.webApp.Infrastructure.Store
 
                 using var connection = await _connectionFactory.CreateConnectionAsync();
                 await connection.ExecuteAsync(query, parameters);
-
-
-
+                
                 return IdentityResult.Success;
             }
             catch (Exception ex)

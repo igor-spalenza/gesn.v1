@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.Identity.DapperOrm" Version="6.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Dapper.SqlBuilder" Version="2.1.66" />
@@ -34,6 +35,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Identity\Data\Stores\" />
+    <Folder Include="Areas\Identity\Pages\Manage\" />
     <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
     <Folder Include="Infrastructure\Configuration\NovaPasta\" />

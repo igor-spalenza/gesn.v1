@@ -1,9 +1,12 @@
+using gesn.webApp.Areas.Identity.Data.Models.Role;
 using gesn.webApp.Data;
 using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Configuration;
 using gesn.webApp.Infrastructure.Middleware;
 using gesn.webApp.Interfaces.Data;
 using GesN.Web.Data.Migrations;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +18,17 @@ else
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 SQLitePCL.Batteries.Init();
-string dbPath = Path.Combine(AppContext.BaseDirectory, "/GesN.Web/Data/Database/gesn.db");
+string dbPath = Path.Combine(AppContext.BaseDirectory, "/gesn.webApp/Data/Database/gesn.db");
 
 builder.Services.AddIdentityServices();
-builder.Services.AddAuthenticationServices();
-builder.Services.AddAuthorizationServices();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+        // Copie outras configs de ConfigureApplicationCookie se necessário
+    }); builder.Services.AddAuthorizationServices();
 
 // Configurar antiforgery para aceitar headers (necessário para AJAX com JSON)
 builder.Services.AddAntiforgery(options =>
