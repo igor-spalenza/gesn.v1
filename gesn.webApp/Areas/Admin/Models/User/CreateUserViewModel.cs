@@ -1,5 +1,4 @@
 ﻿using gesn.webApp.Areas.Admin.Models.Claim;
-using gesn.webApp.Areas.Admin.Models.Claim;
 using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Areas.Admin.Models.User

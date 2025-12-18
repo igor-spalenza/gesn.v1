@@ -10,7 +10,7 @@ using System.Security.Claims;
 using BCrypt.Net;
 using gesn.webApp.Interfaces.Data;
 
-namespace GesN.Web.Areas.Identity.Pages.Account
+namespace gesn.webApp.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {

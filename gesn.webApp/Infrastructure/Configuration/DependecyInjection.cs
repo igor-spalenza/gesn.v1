@@ -91,58 +91,70 @@ namespace gesn.webApp.Infrastructure.Configuration
         {
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-
-                // Senhas mais simples para teste
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 1;
-
-                options.User.RequireUniqueEmail = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = false; // Desabilitar lockout para teste
+                // suas opções existentes
             })
-            .AddUserStore<DapperUserStore>()
-            .AddRoleStore<DapperRoleStore>()
             .AddDefaultTokenProviders();
 
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
+            // Registro manual com injeção de dependência
+            services.AddScoped<IUserStore<ApplicationUser>>(sp =>
+                new DapperUserStore(sp.GetRequiredService<IDbConnectionFactory>()));
+            services.AddScoped<IRoleStore<ApplicationRole>>(sp =>
+                new DapperRoleStore(sp.GetRequiredService<IDbConnectionFactory>()));
+
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
+                UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
             services.AddTransient<IEmailSender, EmailSender>();
         }
 
         public static void AddAuthenticationServices(this IServiceCollection services)
         {
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Identity/Account/Login";
-                options.LogoutPath = "/Identity/Account/Logout";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = "/Identity/Account/Login";
+            //    options.LogoutPath = "/Identity/Account/Logout";
+            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 
-                options.ExpireTimeSpan = TimeSpan.FromHours(8);
-                options.SlidingExpiration = true;
-                options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                options.Cookie.SameSite = SameSiteMode.Lax;
+            //    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            //    options.SlidingExpiration = true;
+            //    options.Cookie.HttpOnly = true;
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            //    options.Cookie.SameSite = SameSiteMode.Lax;
 
-                options.Events.OnRedirectToLogin = context =>
-                {
-                    if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                    {
-                        context.Response.StatusCode = 401;
-                        return Task.CompletedTask;
-                    }
-                    context.Response.Redirect(context.RedirectUri);
-                    return Task.CompletedTask;
-                };
-            });
+            //    options.Events.OnRedirectToLogin = context =>
+            //    {
+            //        if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            //        {
+            //            context.Response.StatusCode = 401;
+            //            return Task.CompletedTask;
+            //        }
+            //        context.Response.Redirect(context.RedirectUri);
+            //        return Task.CompletedTask;
+            //    };
+            //});
+            services.AddAuthentication()
+                    .AddCookie(IdentityConstants.ApplicationScheme, options => {
+                        options.LoginPath = "/Identity/Account/Login";
+                        options.LogoutPath = "/Identity/Account/Logout";
+                        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+                        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                        options.SlidingExpiration = true;
+                        options.Cookie.HttpOnly = true;
+                        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                        options.Cookie.SameSite = SameSiteMode.Lax;
+
+                        options.Events.OnRedirectToLogin = context =>
+                        {
+                            if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                            {
+                                context.Response.StatusCode = 401;
+                                return Task.CompletedTask;
+                            }
+                            context.Response.Redirect(context.RedirectUri);
+                            return Task.CompletedTask;
+                        };
+                    })
+                    .AddCookie(IdentityConstants.ExternalScheme);  // resolve o handler faltante
         }
 
         public static void AddAuthorizationServices(this IServiceCollection services)

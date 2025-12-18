@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GesN.Web.Areas.Identity.Pages.Account
+namespace gesn.webApp.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
