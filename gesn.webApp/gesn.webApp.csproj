@@ -40,7 +40,6 @@
     <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
     <Folder Include="Infrastructure\Configuration\NovaPasta\" />
-    <Folder Include="Interfaces\Services\" />
     <Folder Include="Models\Entities\Financial\" />
     <Folder Include="Models\Entities\ValueObject\" />
     <Folder Include="Models\ViewModels\Financial\" />

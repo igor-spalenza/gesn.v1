@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using gesn.webApp.Infrastructure.Repositories.Templates.Base;
+using System.Data;
 
 namespace gesn.webApp.Interfaces.Repositories.Base
 {
@@ -9,5 +10,6 @@ namespace gesn.webApp.Interfaces.Repositories.Base
         Task<Guid> AddAsync(T entity, IDbTransaction? transaction = null);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> UpdateAsync(T entity);
+        Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, string? whereAdicional = null, object? parametros = null);
     }
 }

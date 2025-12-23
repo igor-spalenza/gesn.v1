@@ -1,10 +1,12 @@
 ﻿using Dapper;
+using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Repositories.Base;
 using gesn.webApp.Models.Enums.Global;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Reflection;
+using static Dapper.SqlBuilder;
 
 namespace gesn.webApp.Data.Repositories.Base
 {
@@ -45,6 +47,38 @@ namespace gesn.webApp.Data.Repositories.Base
 
                 if (null != connection && !Guid.Empty.Equals(id))
                     obj = await connection.QueryFirstOrDefaultAsync<T>(query, new { Id = id });
+            }
+
+            return obj;
+        }
+
+        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, string? whereAdicional = null, object? parametros = null)
+        {
+            IEnumerable<T>? obj = default;
+            var builder = new SqlBuilder().Select(template?.Select ?? "*");
+
+            if (!string.IsNullOrWhiteSpace(template?.Joins))
+                builder.Join(template.Joins);
+
+            if (!string.IsNullOrWhiteSpace(template?.Where))
+                builder.Where(template.Where);
+
+            if (!string.IsNullOrWhiteSpace(whereAdicional))
+                builder.Where(whereAdicional);
+
+            if (!string.IsNullOrWhiteSpace(template?.OrderBy))
+                builder.OrderBy(template.OrderBy);
+
+            builder.AddParameters(parametros ?? new { });
+
+            Template templateSql = builder.AddTemplate("/**select**/ /**from**/ /**where**/ /**order_by**/");
+
+            if (null != _connectionFactory)
+            {
+                using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
+
+                if (null != connection)
+                    obj = await connection.QueryAsync<T>(templateSql.RawSql);
             }
 
             return obj;
@@ -138,9 +172,9 @@ namespace gesn.webApp.Data.Repositories.Base
                 .ToList();
         }
 
-        private static string TableName<T>() => typeof(T).Name + "s"; // ou use [Table("x")]
+        private static string TableName<T>() => $@"{typeof(T).Name}s";
 
-        private static string PrimaryKeyName<T>() => "Id"; // ou detectar automaticamente
+        private static string PrimaryKeyName<T>() => "Id";
 
         private static bool HasIdentity<T>() => typeof(T).GetProperty("Id") != null;
 

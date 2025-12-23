@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace gesn.webApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        protected ITestesServices TestesServices { get; set; }
 
         public HomeController(ILogger<HomeController> logger)
         {
