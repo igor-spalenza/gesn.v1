@@ -3,6 +3,7 @@ using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Services;
 using gesn.webApp.Infrastructure.Store;
 using gesn.webApp.Interfaces.Data;
+using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -104,6 +105,7 @@ namespace gesn.webApp.Infrastructure.Configuration
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
                 UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddScoped<ITestesServices, TesteServices>();
         }
 
         public static void AddAuthenticationServices(this IServiceCollection services)
@@ -132,7 +134,8 @@ namespace gesn.webApp.Infrastructure.Configuration
             //    };
             //});
             services.AddAuthentication()
-                    .AddCookie(IdentityConstants.ApplicationScheme, options => {
+                    .AddCookie(IdentityConstants.ApplicationScheme, options =>
+                    {
                         options.LoginPath = "/Identity/Account/Login";
                         options.LogoutPath = "/Identity/Account/Logout";
                         options.AccessDeniedPath = "/Identity/Account/AccessDenied";

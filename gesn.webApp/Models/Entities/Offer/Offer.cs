@@ -6,11 +6,11 @@ namespace gesn.webApp.Models.Entities.Offer
 {
     public class Offer : Entity
     {
-        /// <summary>
-        /// Tipo do produto (determinado pela classe concreta)
-        /// </summary>
-        [Display(Name = "Tipo de Produto")]
-        public virtual EProductType ProductType { get; protected set; }
+        ///// <summary>
+        ///// Tipo do produto (determinado pela classe concreta)
+        ///// </summary>
+        //[Display(Name = "Tipo de Produto")]
+        //public virtual EProductType ProductType { get; protected set; }
 
         /// <summary>
         /// Nome do produto

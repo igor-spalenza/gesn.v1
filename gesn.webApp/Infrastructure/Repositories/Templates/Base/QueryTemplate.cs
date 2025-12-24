@@ -2,28 +2,31 @@
 {
     public class QueryTemplate
     {
-        public string Where { get; init; } = string.Empty;
-        public string Joins { get; init; } = string.Empty;
+        public IList<WhereTemplate> Wheres { get; init; } = new List<WhereTemplate>();
+        public IList<JoinTemplate> Joins { get; init; } = new List<JoinTemplate>();
         public string OrderBy { get; init; } = string.Empty;
         public string Select { get; init; } = "*";
         public string Having { get; init; } = string.Empty;
+        public string GroupBy { get; init; } = string.Empty;
         public bool ApplySoftDelete { get; init; } = true;
 
         public static QueryTemplate Create(
-            string where = "",
-            string joins = "",
+            IList<WhereTemplate> wheres,
             string orderBy = "",
             string select = "*",
             string having = "",
-            bool applySoftDelete = true)
+            string groupBy = "",
+            bool applySoftDelete = true,
+            IList<JoinTemplate>? joins = null)
         {
             return new QueryTemplate
             {
-                Where = where,
-                Joins = joins,
+                Wheres = wheres ?? new List<WhereTemplate>(),
+                Joins = joins ?? new List<JoinTemplate>(),
                 OrderBy = orderBy,
                 Select = select,
                 Having = having,
+                GroupBy = groupBy,
                 ApplySoftDelete = applySoftDelete
             };
         }

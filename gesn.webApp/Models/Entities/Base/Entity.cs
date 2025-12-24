@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Models.Entities.Base
 {
-    public class Entity
+    public abstract class Entity
     {
         /// <summary>
         /// Identificador único da entidade (GUID como string)

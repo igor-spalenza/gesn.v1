@@ -10,6 +10,6 @@ namespace gesn.webApp.Interfaces.Repositories.Base
         Task<Guid> AddAsync(T entity, IDbTransaction? transaction = null);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> UpdateAsync(T entity);
-        Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, string? whereAdicional = null, object? parametros = null);
+        Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate>? whereAdicional = default, object? parametros = null);
     }
 }

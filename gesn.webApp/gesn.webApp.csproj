@@ -10,16 +10,12 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\Pages\Manage\**" />
-    <Compile Remove="Infrastructure\Configuration\NovaPasta\**" />
     <Compile Remove="Models\Entities\ValueObject\**" />
     <Content Remove="Areas\Identity\Pages\Manage\**" />
-    <Content Remove="Infrastructure\Configuration\NovaPasta\**" />
     <Content Remove="Models\Entities\ValueObject\**" />
     <EmbeddedResource Remove="Areas\Identity\Pages\Manage\**" />
-    <EmbeddedResource Remove="Infrastructure\Configuration\NovaPasta\**" />
     <EmbeddedResource Remove="Models\Entities\ValueObject\**" />
     <None Remove="Areas\Identity\Pages\Manage\**" />
-    <None Remove="Infrastructure\Configuration\NovaPasta\**" />
     <None Remove="Models\Entities\ValueObject\**" />
   </ItemGroup>
 
@@ -53,7 +49,6 @@
     <Folder Include="Areas\Identity\Data\Stores\" />
     <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
-    <Folder Include="Infrastructure\Configuration\NovaPasta\" />
     <Folder Include="Models\Entities\Financial\" />
     <Folder Include="Models\Entities\ValueObject\" />
     <Folder Include="Models\ViewModels\Financial\" />

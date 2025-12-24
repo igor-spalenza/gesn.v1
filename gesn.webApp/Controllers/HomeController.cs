@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using gesn.webApp.Infrastructure.Repositories.Templates;
+using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +12,17 @@ namespace gesn.webApp.Controllers
         private readonly ILogger<HomeController> _logger;
         protected ITestesServices TestesServices { get; set; }
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITestesServices testesServices)
         {
             _logger = logger;
+            this.TestesServices = testesServices;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var obj = await this.TestesServices.AddAsync(new Models.Entities.Offer.Offer($@"TESTE {new Random().Next(int.MaxValue)}", new Random().Next(int.MaxValue)));
+            var foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
+            Console.WriteLine(foo);
             return View();
         }
 

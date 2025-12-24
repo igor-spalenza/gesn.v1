@@ -1,6 +1,4 @@
 ﻿namespace gesn.webApp.Interfaces.Repositories
 {
-    public interface IOfferRepository
-    {
-    }
+    public interface IOfferRepository { }
 }
