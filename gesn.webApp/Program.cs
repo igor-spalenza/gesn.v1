@@ -43,11 +43,7 @@ builder.Services.AddGoogleWorkspaceConfiguration(builder.Configuration);
 
 try
 {
-    // Verificar se o arquivo do banco existe
     string dbPath2 = connectionString.Replace("Data Source=", "").Split(';')[0];
-    //if (!File.Exists(dbPath2))
-    //{
-    Console.WriteLine("Banco não existe. Criando...");
     using (var scope = builder.Services.BuildServiceProvider().CreateScope())
     {
         var identityInit = new IdentitySchemaInit(connectionString);
@@ -56,16 +52,11 @@ try
         var dbInit = new DbInit(connectionString);
         dbInit.Initialize();
 
-        //var connectionFactory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
-        //var seedData = new SeedData(connectionFactory);
-        //await seedData.Initialize();
+        var connectionFactory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
+        var seedData = new SeedData(connectionFactory);
+        await seedData.Initialize();
         Console.WriteLine("Banco criado com sucesso!");
     }
-    //}
-    //else
-    //{
-    //    Console.WriteLine("Banco já existe. Pulando inicialização.");
-    //}
 }
 catch (Exception ex)
 {

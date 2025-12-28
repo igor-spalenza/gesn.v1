@@ -3,6 +3,7 @@ using gesn.webApp.Infrastructure.Repositories.Templates;
 using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
+using gesn.webApp.Models.Entities.Offer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gesn.webApp.Controllers
@@ -20,8 +21,11 @@ namespace gesn.webApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var obj = await this.TestesServices.AddAsync(new Models.Entities.Offer.Offer($@"TESTE {new Random().Next(int.MaxValue)}", new Random().Next(int.MaxValue)));
-            var foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
+            Guid obj = await this.TestesServices.AddAsync(new Models.Entities.Offer.Offer($@"TESTE {new Random().Next(int.MaxValue)}", new Random().Next(int.MaxValue)));
+            IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
+            //var offer = await this.TestesServices.GetAsync(obj);
+            //var bar = await this.TestesServices.UpdateAsync(offer);
+
             Console.WriteLine(foo);
             return View();
         }

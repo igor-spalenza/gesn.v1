@@ -24,7 +24,7 @@ namespace gesn.webApp.Models.Entities.Offer
         /// </summary>
         [StringLength(500)]
         [Display(Name = "Descrição")]
-        public string? Description { get; set; }
+        public string? Description { get; set; } = string.Empty;
 
         /// <summary>
         /// Preço do produto
@@ -57,32 +57,32 @@ namespace gesn.webApp.Models.Entities.Offer
         /// ID da categoria do produto
         /// </summary>
         [Display(Name = "Categoria")]
-        public string? CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         /// <summary>
         /// Nome da categoria do produto
         /// </summary>
         [Display(Name = "Nome da Categoria")]
-        public string? Category { get; set; }
+        public string? Category { get; set; } = string.Empty;
 
         /// <summary>
         /// Código SKU do produto
         /// </summary>
         [StringLength(50)]
         [Display(Name = "SKU")]
-        public string? SKU { get; set; }
+        public string? SKU { get; set; } = string.Empty;
 
         /// <summary>
         /// URL da imagem do produto
         /// </summary>
         [Display(Name = "Imagem")]
-        public string? ImageUrl { get; set; }
+        public string? ImageUrl { get; set; } = string.Empty;
 
         /// <summary>
         /// Notas sobre o produto
         /// </summary>
         [Display(Name = "Observações")]
-        public string? Note { get; set; }
+        public string? Note { get; set; } = string.Empty;
 
         /// <summary>
         /// Tempo de montagem em minutos
@@ -94,10 +94,10 @@ namespace gesn.webApp.Models.Entities.Offer
         /// Instruções de montagem
         /// </summary>
         [Display(Name = "Instruções de Montagem")]
-        public string? AssemblyInstructions { get; set; }
+        public string? AssemblyInstructions { get; set; } = string.Empty;
 
         /// <summary>
-        /// Propriedade navegacional para categoria
+        /// Propriedade navegacional para categoria= string.Empty;
         /// </summary>
         public Category? CategoryNavigation { get; set; }
 

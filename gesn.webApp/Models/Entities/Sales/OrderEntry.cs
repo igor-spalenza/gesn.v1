@@ -34,7 +34,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// </summary>
         [Required(ErrorMessage = "O cliente é obrigatório")]
         [Display(Name = "Cliente")]
-        public string CustomerId { get; set; } = string.Empty;
+        public Guid CustomerId { get; set; }
 
         /// <summary>
         /// Cliente do pedido (navegação)
@@ -98,7 +98,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// ID do endereço de entrega
         /// </summary>
         [Display(Name = "Endereço de Entrega")]
-        public string? DeliveryAddressId { get; set; }
+        public Guid? DeliveryAddressId { get; set; }
 
         ///// <summary>
         ///// Endereço de entrega (navegação)
@@ -116,13 +116,13 @@ namespace gesn.webApp.Models.Entities.Sales
         /// ID dos dados fiscais
         /// </summary>
         [Display(Name = "Dados Fiscais")]
-        public string? FiscalDataId { get; set; }
+        public Guid? FiscalDataId { get; set; }
 
         ///// <summary>
         ///// Dados fiscais (navegação)
         ///// </summary>
         //public FiscalData? FiscalData { get; set; }
-        
+
         /// <summary>
         /// Número do lote de impressão
         /// </summary>
@@ -147,7 +147,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public OrderEntry(string customerId, EOrderType type)
+        public OrderEntry(Guid customerId, EOrderType type)
         {
             CustomerId = customerId;
             Type = type;

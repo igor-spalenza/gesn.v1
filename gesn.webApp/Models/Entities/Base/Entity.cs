@@ -36,7 +36,7 @@ namespace gesn.webApp.Models.Entities.Base
         /// Identificador do usuário que fez a última modificação (opcional)
         /// </summary>
         [Display(Name = "Modificado Por")]
-        public string? LastModifiedBy { get; set; }
+        public string? LastModifiedBy { get; set; } = string.Empty;
 
         /// <summary>
         /// Estado do objeto (Active/Inactive)
@@ -49,8 +49,9 @@ namespace gesn.webApp.Models.Entities.Base
         /// <summary>
         /// Verifica se a entidade está ativa
         /// </summary>
-        public bool IsActive => StateCode == EObjectState.ACTIVE;
-        
+        public bool IsActive()
+            => StateCode == EObjectState.ACTIVE;
+
         /// <summary>
         /// Ativa a entidade
         /// </summary>

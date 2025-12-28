@@ -1,5 +1,4 @@
 ﻿using gesn.webApp.Models.Entities.Base;
-using gesn.webApp.Models.Entities.Offer;
 using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Models.Entities.Sales
@@ -11,7 +10,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// </summary>
         [Required]
         [Display(Name = "Pedido")]
-        public string OrderId { get; set; } = string.Empty;
+        public Guid OrderId { get; set; }
 
         /// <summary>
         /// Pedido (navegação)
@@ -23,7 +22,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// </summary>
         [Required]
         [Display(Name = "Produto")]
-        public string ProductId { get; set; } = string.Empty;
+        public Guid ProductId { get; set; }
 
         /// <summary>
         /// Produto (navegação)
@@ -77,7 +76,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public OrderItem(string orderId, string productId, int quantity, decimal unitPrice)
+        public OrderItem(Guid orderId, Guid productId, int quantity, decimal unitPrice)
         {
             OrderId = orderId;
             ProductId = productId;

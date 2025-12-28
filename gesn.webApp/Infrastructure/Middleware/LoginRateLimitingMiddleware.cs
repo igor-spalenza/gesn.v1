@@ -20,47 +20,46 @@ namespace gesn.webApp.Infrastructure.Middleware
         {
             try
             {
-                //if (context.Request.Path.StartsWithSegments("/Identity/Account/Login") &&
-                //    HttpMethods.IsPost(context.Request.Method))
-                //{
-                //    var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-                //    var cacheKey = $"login_attempts_{ipAddress}";
+                if (context.Request.Path.StartsWithSegments("/Identity/Account/Login") &&
+                    HttpMethods.IsPost(context.Request.Method))
+                {
+                    var ipAddress = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+                    var cacheKey = $"login_attempts_{ipAddress}";
 
-                //    var attempts = _cache.GetOrCreate(cacheKey, entry =>
-                //    {
-                //        entry.AbsoluteExpirationRelativeToNow = _lockoutTime;
-                //        return new LoginAttemptInfo { Count = 0, LastAttempt = DateTime.UtcNow };
-                //    });
+                    var attempts = _cache.GetOrCreate(cacheKey, entry =>
+                    {
+                        entry.AbsoluteExpirationRelativeToNow = _lockoutTime;
+                        return new LoginAttemptInfo { Count = 0, LastAttempt = DateTime.UtcNow };
+                    });
 
-                //    if (attempts.Count >= _maxAttempts)
-                //    {
-                //        var timeSinceLastAttempt = DateTime.UtcNow - attempts.LastAttempt;
-                //        if (timeSinceLastAttempt < _lockoutTime)
-                //        {
-                //            context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
-                //            await context.Response.WriteAsJsonAsync(new
-                //            {
-                //                error = "Too many login attempts",
-                //                retryAfter = (_lockoutTime - timeSinceLastAttempt).TotalSeconds
-                //            });
-                //            return;
-                //        }
-                //        else
-                //        {
-                //            _cache.Remove(cacheKey);
-                //        }
-                //    }
+                    if (attempts.Count >= _maxAttempts)
+                    {
+                        var timeSinceLastAttempt = DateTime.UtcNow - attempts.LastAttempt;
+                        if (timeSinceLastAttempt < _lockoutTime)
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.TooManyRequests;
+                            await context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "Too many login attempts",
+                                retryAfter = (_lockoutTime - timeSinceLastAttempt).TotalSeconds
+                            });
+                            return;
+                        }
+                        else
+                        {
+                            _cache.Remove(cacheKey);
+                        }
+                    }
 
-                //    attempts.Count++;
-                //    attempts.LastAttempt = DateTime.UtcNow;
-                //    _cache.Set(cacheKey, attempts, _lockoutTime);
-                //}
+                    attempts.Count++;
+                    attempts.LastAttempt = DateTime.UtcNow;
+                    _cache.Set(cacheKey, attempts, _lockoutTime);
+                }
 
-                //await _next(context);
+                await _next(context);
             }
             catch (Exception e)
             {
-
                 throw e;
             }
         }

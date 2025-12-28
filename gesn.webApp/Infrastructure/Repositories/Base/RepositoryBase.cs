@@ -25,13 +25,15 @@ namespace gesn.webApp.Data.Repositories.Base
         {
             bool flagUpdated = false;
 
-            try
-            {
+            var props = typeof(T).GetProperties().Where(p => p.Name != "Id");
+            var sets = string.Join(", ", props.Select(p => $@"{p.Name} = @${p.Name}"));
+            var sql = $"UPDATE {_tableName} SET {sets} WHERE Id = @Id";
 
-            }
-            catch (Exception error)
+            if (null != this._connectionFactory)
             {
-                throw error;
+                using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
+                await connection.ExecuteAsync(sql, entity);
+                flagUpdated = true;
             }
 
             return flagUpdated;
@@ -40,14 +42,13 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<T> GetAsync(Guid id)
         {
             T? obj = default;
-            string query = $@"SELECT * FROM {this._tableName} WHERE Id = @Id";
-
+            string query = $@"SELECT * FROM {this._tableName} WHERE Id = {id.ToString().ToUpper()}";
             if (null != _connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-
+                string idStr = id.ToString().ToUpper();
                 if (null != connection && !Guid.Empty.Equals(id))
-                    obj = await connection.QueryFirstOrDefaultAsync<T>(query, new { Id = id });
+                    obj = await connection.QueryFirstOrDefaultAsync<T>(query);
             }
 
             return obj;
@@ -70,7 +71,8 @@ namespace gesn.webApp.Data.Repositories.Base
             if (!string.IsNullOrWhiteSpace(template?.GroupBy))
                 builder.GroupBy(template.GroupBy);
 
-            builder.AddParameters(parametros ?? new { });
+            if (null != parametros)
+                builder.AddParameters(parametros);
 
             Template templateSql = builder.AddTemplate("/**select**/ /**from**/ /**innerjoin**/ /**leftjoin**/ /**rightjoin**/ /**where**/ /**groupby**/ /**having**/ /**order_by**/");
 
@@ -170,9 +172,9 @@ namespace gesn.webApp.Data.Repositories.Base
         {
             PropertyInfo pk = PrimaryKeyProperty<T>();
             Guid newId = Guid.NewGuid();
-            pk.SetValue(entity, newId.ToString());
+            pk.SetValue(entity, newId);
 
-            var props = GetInsertProperties<T>(entity);  // inclui Id, ignora nulos
+            var props = GetInsertProperties<T>(entity);
 
             string columns = string.Join(", ", props.Select(p => p.name));
             string parameters = string.Join(", ", props.Select(p => $"@{p.parameter}"));
@@ -185,35 +187,6 @@ namespace gesn.webApp.Data.Repositories.Base
             }
 
             return newId;
-
-            //Guid newId = Guid.NewGuid();
-            //var builder = new SqlBuilder();
-            //var props = GetInsertProperties<T>(entity);
-
-            //var pk = PrimaryKeyProperty<T>();
-            //pk.SetValue(entity, newId);
-            //var pkColumnName = pk.Name;
-
-            //var columns = string.Join(", ", props.Select(p => p.name));
-            //var parameters = string.Join(", ", props.Select(p => $"@{p.parameter}"));
-
-            //string query = $@"INSERT INTO {this._tableName} ({columns}) VALUES ({parameters})";
-
-            //if (HasIdentity<T>())
-            //{
-            //    if (null != this._connectionFactory)
-            //    {
-            //        using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-
-            //        if (null != connection)
-            //            newId = await connection.ExecuteScalarAsync<Guid>(query, entity, transaction);
-
-            //        if (Guid.Empty != newId)
-            //            SetProperty<T>(entity, PrimaryKeyName<T>(), newId);
-            //    }
-            //}
-
-            //return newId;
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)

@@ -13,21 +13,21 @@ namespace gesn.webApp.Models.Entities.Production
         /// </summary>
         [Required(ErrorMessage = "O pedido é obrigatório")]
         [Display(Name = "Pedido")]
-        public string OrderId { get; set; } = string.Empty;
+        public Guid OrderId { get; set; }
 
         /// <summary>
         /// ID do item do pedido (OrderItemId na tabela)
         /// </summary>
         [Required(ErrorMessage = "O item do pedido é obrigatório")]
         [Display(Name = "Item do Pedido")]
-        public string OrderItemId { get; set; } = string.Empty;
+        public Guid OrderItemId { get; set; }
 
         /// <summary>
         /// ID do produto a ser produzido
         /// </summary>
         [Required(ErrorMessage = "O produto é obrigatório")]
         [Display(Name = "Produto")]
-        public string ProductId { get; set; } = string.Empty;
+        public Guid ProductId { get; set; }
 
         /// <summary>
         /// Quantidade a ser produzida
@@ -121,7 +121,7 @@ namespace gesn.webApp.Models.Entities.Production
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public ProductionOrder(string orderId, string orderItemId, string productId, int quantity)
+        public ProductionOrder(Guid orderId, Guid orderItemId, Guid productId, int quantity)
         {
             OrderId = orderId;
             OrderItemId = orderItemId;
@@ -281,9 +281,9 @@ namespace gesn.webApp.Models.Entities.Production
         /// </summary>
         public bool HasCompleteData()
         {
-            return !string.IsNullOrWhiteSpace(OrderId) &&
-                   !string.IsNullOrWhiteSpace(OrderItemId) &&
-                   !string.IsNullOrWhiteSpace(ProductId) &&
+            return !Guid.Empty.Equals(OrderId) &&
+                   !Guid.Empty.Equals(OrderItemId) &&
+                   !Guid.Empty.Equals(ProductId) &&
                    Quantity > 0;
         }
 

@@ -203,7 +203,7 @@ namespace gesn.webApp.Models.Entities.Sales
         /// <summary>
         /// Verifica se o contrato está ativo
         /// </summary>
-        public bool IsActive()
+        public bool IsContractActive()
         {
             return Status == EContractStatus.Active ||
                    Status == EContractStatus.Signed ||
@@ -217,7 +217,7 @@ namespace gesn.webApp.Models.Entities.Sales
         {
             return EndDate.HasValue &&
                    EndDate.Value < DateTime.Today &&
-                   IsActive();
+                   IsContractActive();
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace gesn.webApp.Models.Entities.Sales
             return EndDate.HasValue &&
                    EndDate.Value > DateTime.Today &&
                    EndDate.Value <= DateTime.Today.AddDays(30) &&
-                   IsActive();
+                   IsContractActive();
         }
 
         /// <summary>
