@@ -28,6 +28,8 @@
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Dapper.SqlBuilder" Version="2.1.66" />
+    <PackageReference Include="FluentMigrator" Version="7.2.0" />
+    <PackageReference Include="FluentMigrator.Runner.SQLite" Version="7.2.0" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.73.0.3979" />
     <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.72.0.3973" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />

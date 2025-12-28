@@ -1,5 +1,4 @@
 ﻿using gesn.webApp.Models.Entities.Base;
-using gesn.webApp.Models.Enums.Offer;
 using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Models.Entities.Offer

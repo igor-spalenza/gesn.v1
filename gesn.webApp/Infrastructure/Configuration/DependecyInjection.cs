@@ -80,7 +80,7 @@ namespace gesn.webApp.Infrastructure.Configuration
             //    configuration.GetSection(GoogleWorkspaceSettings.SectionName));
         }
 
-        public static void EnsureDatabaseInitialized(this IServiceProvider serviceProvider, string connectionString)
+        public async static void EnsureDatabaseInitialized(this IServiceProvider serviceProvider, string connectionString)
         {
             var dbInit = new DbInit(connectionString);
             dbInit.Initialize();

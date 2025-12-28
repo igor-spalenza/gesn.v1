@@ -1,4 +1,3 @@
-using gesn.webApp.Areas.Identity.Data.Models.Role;
 using gesn.webApp.Data;
 using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Configuration;
@@ -6,7 +5,6 @@ using gesn.webApp.Infrastructure.Middleware;
 using gesn.webApp.Interfaces.Data;
 using GesN.Web.Data.Migrations;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,27 +45,27 @@ try
 {
     // Verificar se o arquivo do banco existe
     string dbPath2 = connectionString.Replace("Data Source=", "").Split(';')[0];
-    if (!File.Exists(dbPath2))
+    //if (!File.Exists(dbPath2))
+    //{
+    Console.WriteLine("Banco não existe. Criando...");
+    using (var scope = builder.Services.BuildServiceProvider().CreateScope())
     {
-        Console.WriteLine("Banco não existe. Criando...");
-        using (var scope = builder.Services.BuildServiceProvider().CreateScope())
-        {
-            var identityInit = new IdentitySchemaInit(connectionString);
-            identityInit.Initialize();
+        var identityInit = new IdentitySchemaInit(connectionString);
+        identityInit.Initialize();
 
-            var dbInit = new DbInit(connectionString);
-            dbInit.Initialize();
+        var dbInit = new DbInit(connectionString);
+        dbInit.Initialize();
 
-            var connectionFactory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
-            var seedData = new SeedData(connectionFactory);
-            await seedData.Initialize();
-            Console.WriteLine("Banco criado com sucesso!");
-        }
+        //var connectionFactory = scope.ServiceProvider.GetRequiredService<IDbConnectionFactory>();
+        //var seedData = new SeedData(connectionFactory);
+        //await seedData.Initialize();
+        Console.WriteLine("Banco criado com sucesso!");
     }
-    else
-    {
-        Console.WriteLine("Banco já existe. Pulando inicialização.");
-    }
+    //}
+    //else
+    //{
+    //    Console.WriteLine("Banco já existe. Pulando inicialização.");
+    //}
 }
 catch (Exception ex)
 {
