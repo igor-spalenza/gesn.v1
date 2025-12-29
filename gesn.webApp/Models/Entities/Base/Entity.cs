@@ -10,7 +10,7 @@ namespace gesn.webApp.Models.Entities.Base
         /// </summary>
         [Key]
         [Required]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// Data e hora de criação da entidade

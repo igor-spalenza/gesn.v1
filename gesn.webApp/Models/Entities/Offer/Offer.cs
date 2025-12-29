@@ -57,7 +57,7 @@ namespace gesn.webApp.Models.Entities.Offer
         /// ID da categoria do produto
         /// </summary>
         [Display(Name = "Categoria")]
-        public Guid? CategoryId { get; set; }
+        public string? CategoryId { get; set; }
 
         /// <summary>
         /// Nome da categoria do produto
@@ -69,8 +69,14 @@ namespace gesn.webApp.Models.Entities.Offer
         /// Código SKU do produto
         /// </summary>
         [StringLength(50)]
+        private string _SKU;
+
         [Display(Name = "SKU")]
-        public string? SKU { get; set; } = string.Empty;
+        public string SKU
+        {
+            get { return GerarSKU(); }
+        }
+
 
         /// <summary>
         /// URL da imagem do produto
@@ -167,5 +173,13 @@ namespace gesn.webApp.Models.Entities.Offer
         /// </summary>
         public override string ToString() =>
             $"{GetDisplayName()} - {GetPriceInfo()}";
+
+        internal string GerarSKU()
+        {
+            if (!string.IsNullOrWhiteSpace(this._SKU))
+                this._SKU = Guid.NewGuid().ToString();
+
+            return this._SKU;
+        }
     }
 }

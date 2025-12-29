@@ -118,15 +118,15 @@ namespace gesn.webApp.Data.Migrations
 
             #region Production
             Create.Table(typeof(ProductionOrder).Name)
-                .WithColumn(nameof(ProductionOrder.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(ProductionOrder.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(ProductionOrder.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(ProductionOrder.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(ProductionOrder.CreatedBy)).AsString()
                 .WithColumn(nameof(ProductionOrder.LastModifiedBy)).AsString()
                 .WithColumn(nameof(ProductionOrder.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
-                .WithColumn(nameof(ProductionOrder.OrderId)).AsGuid().Nullable()
-                .WithColumn(nameof(ProductionOrder.ProductId)).AsGuid().Nullable()
-                .WithColumn(nameof(ProductionOrder.OrderItemId)).AsGuid().Nullable()
+                .WithColumn(nameof(ProductionOrder.OrderId)).AsFixedLengthString(36).Nullable()
+                .WithColumn(nameof(ProductionOrder.ProductId)).AsFixedLengthString(36).Nullable()
+                .WithColumn(nameof(ProductionOrder.OrderItemId)).AsFixedLengthString(36).Nullable()
                 .WithColumn(nameof(ProductionOrder.Quantity)).AsInt32().NotNullable()
                 .WithColumn(nameof(ProductionOrder.ScheduledStartDate)).AsDateTime().Nullable()
                 .WithColumn(nameof(ProductionOrder.ScheduledEndDate)).AsDateTime().Nullable()
@@ -141,7 +141,7 @@ namespace gesn.webApp.Data.Migrations
             #endregion
             #region Offer
             Create.Table(typeof(Category).Name)
-                .WithColumn(nameof(Category.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(Category.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Category.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(Category.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(Category.CreatedBy)).AsString().Nullable()
@@ -151,7 +151,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Category.Description)).AsFixedLengthString(500);
 
             Create.Table(typeof(Offer).Name)
-                .WithColumn(nameof(Offer.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(Offer.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Offer.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(Offer.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(Offer.CreatedBy)).AsString().Nullable()
@@ -170,7 +170,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Offer.CategoryNavigation)).AsString().Nullable()
                 .WithColumn(nameof(Offer.AssemblyInstructions)).AsString()
                 .WithColumn(nameof(Offer.AssemblyTime)).AsInt32().NotNullable()
-                .WithColumn(nameof(Offer.CategoryId)).AsGuid().Nullable();
+                .WithColumn(nameof(Offer.CategoryId)).AsFixedLengthString(36).Nullable();
 
             /* EXEMPLO de como declarar FK no FluentMigrator
              OBS: SQLite não suporta foreign keys via FluentMigrator*/
@@ -179,11 +179,10 @@ namespace gesn.webApp.Data.Migrations
             //    .ToTable(typeof(Category).Name).PrimaryColumn(nameof(Category.Id));
 
             #endregion
-
             #region Sales
 
             Create.Table(typeof(Contract).Name)
-                .WithColumn(nameof(Contract.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(Contract.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Contract.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(Contract.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(Contract.CreatedBy)).AsString()
@@ -196,14 +195,14 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Contract.EndDate)).AsDateTime().Nullable()
                 .WithColumn(nameof(Contract.TotalValue)).AsDecimal().NotNullable()
                 .WithColumn(nameof(Contract.Status)).AsInt32().NotNullable().WithDefaultValue(EContractStatus.Draft)
-                .WithColumn(nameof(Contract.CustomerId)).AsGuid().Nullable()
+                .WithColumn(nameof(Contract.CustomerId)).AsFixedLengthString(36).Nullable()
                 .WithColumn(nameof(Contract.TermsAndConditions)).AsFixedLengthString(5000)
                 .WithColumn(nameof(Contract.SignedDate)).AsDateTime()
                 .WithColumn(nameof(Contract.SignedByCustomer)).AsFixedLengthString(200)
                 .WithColumn(nameof(Contract.Notes)).AsFixedLengthString(1000);
 
             Create.Table(typeof(Customer).Name)
-                .WithColumn(nameof(Customer.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(Customer.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Customer.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(Customer.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(Customer.CreatedBy)).AsString()
@@ -218,7 +217,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Customer.GoogleContactId)).AsFixedLengthString(100);
 
             Create.Table(typeof(OrderEntry).Name)
-                .WithColumn(nameof(OrderEntry.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(OrderEntry.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(OrderEntry.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(OrderEntry.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(OrderEntry.CreatedBy)).AsString()
@@ -241,7 +240,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OrderEntry.PrintBatchNumber)).AsInt32().Nullable();
 
             Create.Table(typeof(OrderItem).Name)
-                .WithColumn(nameof(OrderItem.Id)).AsString(36).PrimaryKey()
+                .WithColumn(nameof(OrderItem.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(OrderItem.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(OrderItem.LastModifiedAt)).AsDateTime().Nullable()
                 .WithColumn(nameof(OrderItem.CreatedBy)).AsString()
@@ -256,6 +255,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OrderItem.Notes)).AsFixedLengthString(1000);
 
             #endregion
+
             #endregion
         }
     }

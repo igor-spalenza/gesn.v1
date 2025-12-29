@@ -23,9 +23,11 @@ namespace gesn.webApp.Controllers
         {
             Guid obj = await this.TestesServices.AddAsync(new Models.Entities.Offer.Offer($@"TESTE {new Random().Next(int.MaxValue)}", new Random().Next(int.MaxValue)));
             IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
-            //var offer = await this.TestesServices.GetAsync(obj);
-            //var bar = await this.TestesServices.UpdateAsync(offer);
-
+            var offer = await this.TestesServices.GetAsync(obj);
+            offer.Note = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            bool flagUpdated = await this.TestesServices.UpdateAsync(offer);
+            var all = await this.TestesServices.GetAllAsync();
+            await this.TestesServices.DeleteAsync(obj);
             Console.WriteLine(foo);
             return View();
         }

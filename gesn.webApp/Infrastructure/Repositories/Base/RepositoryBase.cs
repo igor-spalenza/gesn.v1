@@ -25,14 +25,14 @@ namespace gesn.webApp.Data.Repositories.Base
         {
             bool flagUpdated = false;
 
-            var props = typeof(T).GetProperties().Where(p => p.Name != "Id");
-            var sets = string.Join(", ", props.Select(p => $@"{p.Name} = @${p.Name}"));
-            var sql = $"UPDATE {_tableName} SET {sets} WHERE Id = @Id";
+            var props = GetUpdateProperties(entity);
+            var sets = string.Join(", ", props.Select(p => $"{p.name} = @{p.parameter}"));
+            string query = $"UPDATE {this._tableName} SET {sets} WHERE Id = @Id";
 
             if (null != this._connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-                await connection.ExecuteAsync(sql, entity);
+                await connection.ExecuteAsync(query, entity);
                 flagUpdated = true;
             }
 
@@ -41,14 +41,14 @@ namespace gesn.webApp.Data.Repositories.Base
 
         public virtual async Task<T> GetAsync(Guid id)
         {
-            T? obj = default;
-            string query = $@"SELECT * FROM {this._tableName} WHERE Id = {id.ToString().ToUpper()}";
+            T obj = null;
+            string idStr = id.ToString().ToUpper();
+            string query = $@"SELECT * FROM {this._tableName} WHERE Id LIKE @idStr";
             if (null != _connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-                string idStr = id.ToString().ToUpper();
                 if (null != connection && !Guid.Empty.Equals(id))
-                    obj = await connection.QueryFirstOrDefaultAsync<T>(query);
+                    obj = await connection.QueryFirstOrDefaultAsync<T>(query, new { idStr });
             }
 
             return obj;
@@ -172,7 +172,7 @@ namespace gesn.webApp.Data.Repositories.Base
         {
             PropertyInfo pk = PrimaryKeyProperty<T>();
             Guid newId = Guid.NewGuid();
-            pk.SetValue(entity, newId);
+            pk.SetValue(entity, newId.ToString());
 
             var props = GetInsertProperties<T>(entity);
 
@@ -192,7 +192,7 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<bool> DeleteAsync(Guid id)
         {
             bool flagDeleted = false;
-            string query = $@"UPDATE {_tableName} SET StateCode = @StateCode WHERE Id = @Id";
+            string query = $@"UPDATE {_tableName} SET StateCode = @StateCode WHERE Id LIKE @Id";
 
             if (null != _connectionFactory)
             {
@@ -205,15 +205,14 @@ namespace gesn.webApp.Data.Repositories.Base
             return flagDeleted;
         }
 
-        private static List<(string name, string parameter)> GetUpdateProperties<T>(
-            bool ignoreNulls, string[] extraIgnore)
+        private static List<(string name, string parameter)> GetUpdateProperties<T>(T entity)
         {
-            var ignore = new HashSet<string>(extraIgnore.Concat(new[] { "Id", "CreatedAt", "CreatedBy" }));
-
             return typeof(T).GetProperties()
-                .Where(p => !ignore.Contains(p.Name) && p.CanRead && p.CanWrite)
-                .Where(p => !ignoreNulls || p.GetValue(Activator.CreateInstance<T>()) != null)
-                .Select(p => (name: p.Name, parameter: p.Name))
+                .Where(p => p.Name != "Id" &&
+                            p.CanRead &&
+                            p.CanWrite &&
+                            p.GetValue(entity) != null)  // ignora nulos
+                .Select(p => (p.Name, p.Name))
                 .ToList();
         }
 

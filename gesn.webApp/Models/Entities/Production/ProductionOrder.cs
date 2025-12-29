@@ -1,5 +1,4 @@
 ﻿using gesn.webApp.Models.Entities.Base;
-using gesn.webApp.Models.Entities.Offer;
 using gesn.webApp.Models.Entities.Sales;
 using gesn.webApp.Models.Enums.Production;
 using System.ComponentModel.DataAnnotations;
@@ -13,21 +12,21 @@ namespace gesn.webApp.Models.Entities.Production
         /// </summary>
         [Required(ErrorMessage = "O pedido é obrigatório")]
         [Display(Name = "Pedido")]
-        public Guid OrderId { get; set; }
+        public string OrderId { get; set; }
 
         /// <summary>
         /// ID do item do pedido (OrderItemId na tabela)
         /// </summary>
         [Required(ErrorMessage = "O item do pedido é obrigatório")]
         [Display(Name = "Item do Pedido")]
-        public Guid OrderItemId { get; set; }
+        public string OrderItemId { get; set; }
 
         /// <summary>
         /// ID do produto a ser produzido
         /// </summary>
         [Required(ErrorMessage = "O produto é obrigatório")]
         [Display(Name = "Produto")]
-        public Guid ProductId { get; set; }
+        public string ProductId { get; set; }
 
         /// <summary>
         /// Quantidade a ser produzida
@@ -121,7 +120,7 @@ namespace gesn.webApp.Models.Entities.Production
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public ProductionOrder(Guid orderId, Guid orderItemId, Guid productId, int quantity)
+        public ProductionOrder(string orderId, string orderItemId, string productId, int quantity)
         {
             OrderId = orderId;
             OrderItemId = orderItemId;
