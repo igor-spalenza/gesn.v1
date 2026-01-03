@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using gesn.webApp.Models;
+using gesn.webApp.Areas.Identity.Data.Models;
 using System.Data;
 
 namespace gesn.webApp.Areas.Admin.Repositories

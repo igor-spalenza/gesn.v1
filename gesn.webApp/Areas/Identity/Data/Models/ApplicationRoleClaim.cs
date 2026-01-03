@@ -1,4 +1,4 @@
-﻿namespace gesn.webApp.Areas.Identity.Data.Models.Role
+﻿namespace gesn.webApp.Areas.Identity.Data.Models
 {
     public class ApplicationRoleClaim<TKey> where TKey : IEquatable<TKey>
     {

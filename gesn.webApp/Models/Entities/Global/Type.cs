@@ -1,14 +1,14 @@
 ﻿using gesn.webApp.Models.Entities.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace gesn.webApp.Models.Entities.Offer
+namespace gesn.webApp.Models.Entities.Global
 {
-    public class Category : Entity
+    public class Type : Entity
     {
         /// <summary>
         /// Nome da categoria
         /// </summary>
-        [Required(ErrorMessage = "O nome da categoria é obrigatório")]
+        [Required(ErrorMessage = "O nome do Tipo é obrigatório")]
         [Display(Name = "Nome")]
         [MaxLength(200)]
         public string Name { get; set; } = string.Empty;
@@ -23,12 +23,12 @@ namespace gesn.webApp.Models.Entities.Offer
         /// <summary>
         /// Construtor padrão
         /// </summary>
-        public Category() { }
+        public Type() { }
 
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public Category(string name, string? description = null)
+        public Type(string name, string? description = null)
         {
             Name = name;
             Description = description;
@@ -38,7 +38,7 @@ namespace gesn.webApp.Models.Entities.Offer
         /// Obtém o nome para exibição
         /// </summary>
         public string GetDisplayName() =>
-            string.IsNullOrWhiteSpace(Name) ? "Categoria sem nome" : Name;
+            string.IsNullOrWhiteSpace(Name) ? "Tipo sem nome" : Name;
 
         /// <summary>
         /// Verifica se a categoria possui dados básicos completos

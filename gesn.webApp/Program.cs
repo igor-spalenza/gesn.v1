@@ -3,30 +3,34 @@ using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Configuration;
 using gesn.webApp.Infrastructure.Middleware;
 using gesn.webApp.Interfaces.Data;
-using GesN.Web.Data.Migrations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = string.Empty;
 if (builder.Environment.IsDevelopment())
+{
     builder.Configuration.AddUserSecrets<Program>();
-else
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+}
+else // RELEASE MODE 
+{
     builder.Configuration.AddEnvironmentVariables();
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+}
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+/*builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80); // HTTP
+    options.ListenAnyIP(81, listenOptions => listenOptions.UseHttps()); // HTTPS
+    options.ListenAnyIP(443, listenOptions => listenOptions.UseHttps()); // HTTPS
+});*/
 
 SQLitePCL.Batteries.Init();
-string dbPath = Path.Combine(AppContext.BaseDirectory, "/gesn.webApp/Data/Database/gesn.db");
+string dbPath = Path.Combine(AppContext.BaseDirectory, "/gesn.webApp/Data/gesn.db");
 
 builder.Services.AddIdentityServices();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Identity/Account/Login";
-        options.LogoutPath = "/Identity/Account/Logout";
-        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-        // Copie outras configs de ConfigureApplicationCookie se necessário
-    }); builder.Services.AddAuthorizationServices();
+builder.Services.AddAuthenticationServices(); 
+builder.Services.AddAuthorizationServices();
 
 // Configurar antiforgery para aceitar headers (necessário para AJAX com JSON)
 builder.Services.AddAntiforgery(options =>
@@ -34,12 +38,11 @@ builder.Services.AddAntiforgery(options =>
     options.HeaderName = "RequestVerificationToken";
 });
 
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();                                           // Razor Pages
+builder.Services.AddControllersWithViews();                                 // MVC
+builder.Services.AddInfrastructureServices(connectionString);               // DI + IoC Container | Configs Injection
 
-builder.Services.AddInfrastructureServices(connectionString);
-
-builder.Services.AddGoogleWorkspaceConfiguration(builder.Configuration);
+builder.Services.AddGoogleWorkspaceConfiguration(builder.Configuration);    // Google Workspace (People/Calendar/Maps) configs
 
 try
 {

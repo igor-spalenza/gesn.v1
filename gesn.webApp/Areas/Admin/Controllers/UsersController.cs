@@ -1,13 +1,13 @@
 ﻿using Dapper;
 using gesn.webApp.Areas.Admin.Models.Claim;
 using gesn.webApp.Areas.Admin.Models.User;
+using gesn.webApp.Areas.Identity.Data.Models;
 using gesn.webApp.Interfaces.Data;
-using gesn.webApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace GesN.Web.Areas.Admin.Controllers
+namespace gesn.webApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]

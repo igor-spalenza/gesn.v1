@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using gesn.webApp.Areas.Identity.Data.Models.Role;
+using gesn.webApp.Areas.Identity.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

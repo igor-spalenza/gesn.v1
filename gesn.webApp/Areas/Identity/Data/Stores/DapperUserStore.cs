@@ -1,10 +1,10 @@
 ﻿using Dapper;
+using gesn.webApp.Areas.Identity.Data.Models;
 using gesn.webApp.Interfaces.Data;
-using gesn.webApp.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace gesn.webApp.Infrastructure.Store
+namespace gesn.webApp.Areas.Identity.Data.Stores
 {
     public class DapperUserStore : IUserStore<ApplicationUser>,
                                    IUserEmailStore<ApplicationUser>,
@@ -394,7 +394,7 @@ namespace gesn.webApp.Infrastructure.Store
         {
             using var connection = await _connectionFactory.CreateConnectionAsync();
 
-            var userClaims = await connection.QueryAsync<Microsoft.AspNetCore.Identity.IdentityUserClaim<string>>(
+            var userClaims = await connection.QueryAsync<IdentityUserClaim<string>>(
                 "SELECT * FROM AspNetUserClaims WHERE UserId = @UserId",
                 new { UserId = user.Id });
 
@@ -560,7 +560,7 @@ namespace gesn.webApp.Infrastructure.Store
         {
             using var connection = await _connectionFactory.CreateConnectionAsync();
 
-            var userLogins = await connection.QueryAsync<Microsoft.AspNetCore.Identity.IdentityUserLogin<string>>(
+            var userLogins = await connection.QueryAsync<IdentityUserLogin<string>>(
                 "SELECT * FROM AspNetUserLogins WHERE UserId = @UserId",
                 new { UserId = user.Id });
 

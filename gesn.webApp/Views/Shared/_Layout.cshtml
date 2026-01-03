@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - gesn.webApp</title>
+    <title>@ViewData["Title"] - gesn</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/gesn.webApp.styles.css" asp-append-version="true" />
@@ -12,19 +12,95 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">gesn.webApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span id="logo">
+                        <img class="fav-icon" src="~/img/gesn-cubos-colorido.svg" alt="Logomarca gesn" />
+                    </span>
+                    gesn
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li> *@
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="OfferDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ERP @* Oferta *@
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="OfferDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Category" asp-action="Index">Categorias</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Type" asp-action="Index">Tipos</a></li>
+                                @* | ProductGroupItem | ProductGroupExchangeRule | CompositeProductXHierarchy | ProductIngredient | *@
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Offer" asp-action="Index">Ofertas</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Recipe" asp-action="Index">Ficha Técnica</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="OfferHierarchy" asp-action="Index">Hierarquias</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="OfferComponent" asp-action="Index">Componentes</a></li>
+                            </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="SalesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                CRM @* Venda *@
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="SalesDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="OrderEntry" asp-action="Index">Vendas</a></li>
+                                @* | OrderItem | Contract | Address | FiscalData | Demand | *@
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Customer" asp-action="Index">Clientes</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Contract" asp-action="Index">Contratos</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="ProductionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                MRP @* Produção *@
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="ProductionDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Demand" asp-action="Index">Demandas de Venda</a></li>
+                                @* | ProductComposition |  *@
+                                <li><a class="dropdown-item" asp-area="" asp-controller="ProductionOrder" asp-action="Index">Ordens de Produção</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="ComprasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                SCM @* Depósito *@
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="StoreDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Ingredient" asp-action="Index">Ingredientes</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Supplier" asp-action="Index">Fornecedores</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="HumanResourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                RH
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="HumanResourcesDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Worker" asp-action="Index">Colaborador</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="JobPosition" asp-action="Index">Cargo</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Department" asp-action="Index">Departamento</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="FinancialDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                FMS @* Financeiro *@
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="FinancialDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="FinancialTransaction" asp-action="Index">FinancialTransaction</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="TransactionCategory" asp-action="Index">TransactionCategory</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="PaymentMethod" asp-action="Index">PaymentMethod</a></li>
+                            </ul>
+                        </li>
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace gesn.webApp.Areas.Identity.Data.Models.Role
+namespace gesn.webApp.Areas.Identity.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {

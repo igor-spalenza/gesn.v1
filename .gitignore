@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /gesn.webApp/Data/Database/gesn.db
+/gesn.webApp/Data/gesn.db

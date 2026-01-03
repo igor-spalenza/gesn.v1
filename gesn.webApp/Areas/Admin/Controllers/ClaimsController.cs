@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Security.Claims;
 
-namespace GesN.Web.Areas.Admin.Controllers
+namespace gesn.webApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]

@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace gesn.webApp.Models.Entities.Global
 {
-    public class AddressData : Entity
+    public class Category : Entity
     {
         /// <summary>
         /// Nome da categoria
         /// </summary>
-        [Required(ErrorMessage = "Os dados do Endereço é obrigatório")]
+        [Required(ErrorMessage = "O nome da Categoria é obrigatório")]
         [Display(Name = "Nome")]
         [MaxLength(200)]
         public string Name { get; set; } = string.Empty;
@@ -23,12 +23,12 @@ namespace gesn.webApp.Models.Entities.Global
         /// <summary>
         /// Construtor padrão
         /// </summary>
-        public AddressData() { }
+        public Category() { }
 
         /// <summary>
         /// Construtor com dados básicos
         /// </summary>
-        public AddressData(string name, string? description = null)
+        public Category(string name, string? description = null)
         {
             Name = name;
             Description = description;
@@ -38,7 +38,7 @@ namespace gesn.webApp.Models.Entities.Global
         /// Obtém o nome para exibição
         /// </summary>
         public string GetDisplayName() =>
-            string.IsNullOrWhiteSpace(Name) ? "Dados do Endereço sem nome" : Name;
+            string.IsNullOrWhiteSpace(Name) ? "Categoria sem nome" : Name;
 
         /// <summary>
         /// Verifica se a categoria possui dados básicos completos

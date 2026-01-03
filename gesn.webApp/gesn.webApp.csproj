@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ApplicationRole.cs" />
+    <Compile Remove="Models\ApplicationRoleClaim.cs" />
+    <Compile Remove="Models\ApplicationUser.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Data\Database\gesn.db" />
   </ItemGroup>
 
@@ -48,15 +54,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Identity\Data\Stores\" />
     <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
     <Folder Include="Models\Entities\Financial\" />
-    <Folder Include="Models\Entities\ValueObject\" />
     <Folder Include="Models\ViewModels\Financial\" />
     <Folder Include="Models\ViewModels\Sales\" />
     <Folder Include="Models\ViewModels\Production\" />
     <Folder Include="Context\" />
+    <Folder Include="Views\CompositeOffer\" />
+    <Folder Include="Views\Category\" />
+    <Folder Include="Views\Contract\" />
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\AddressData\" />
+    <Folder Include="Views\ContactData\" />
+    <Folder Include="Views\FiscalData\" />
+    <Folder Include="Views\OrderItem\" />
+    <Folder Include="Views\OrderEntry\" />
+    <Folder Include="Views\Type\" />
+    <Folder Include="Views\Recipe\" />
+    <Folder Include="Views\OfferHierarchy\" />
+    <Folder Include="Views\OfferGroupItem\" />
+    <Folder Include="Views\OfferGroupExchangeRule\" />
+    <Folder Include="Views\OfferComponent\" />
+    <Folder Include="Views\Offer\" />
   </ItemGroup>
 
   <ItemGroup>

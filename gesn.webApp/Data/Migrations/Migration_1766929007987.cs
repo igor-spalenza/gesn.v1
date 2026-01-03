@@ -1,5 +1,6 @@
 ﻿using FluentMigrator;
-using gesn.webApp.Areas.Identity.Data.Models.Role;
+using gesn.webApp.Areas.Identity.Data.Models;
+using gesn.webApp.Models.Entities.Global;
 using gesn.webApp.Models.Entities.Offer;
 using gesn.webApp.Models.Entities.Production;
 using gesn.webApp.Models.Entities.Sales;
@@ -7,6 +8,8 @@ using gesn.webApp.Models.Enums.Global;
 using gesn.webApp.Models.Enums.Production;
 using gesn.webApp.Models.Enums.Sales;
 using Contract = gesn.webApp.Models.Entities.Sales.Contract;
+using Type = gesn.webApp.Models.Entities.Global.Type;
+
 namespace gesn.webApp.Data.Migrations
 {
     [Migration(1766929007987)]
@@ -116,30 +119,8 @@ namespace gesn.webApp.Data.Migrations
 
             #endregion
 
-            #region Production
-            Create.Table(typeof(ProductionOrder).Name)
-                .WithColumn(nameof(ProductionOrder.Id)).AsFixedLengthString(36).PrimaryKey()
-                .WithColumn(nameof(ProductionOrder.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
-                .WithColumn(nameof(ProductionOrder.LastModifiedAt)).AsDateTime().Nullable()
-                .WithColumn(nameof(ProductionOrder.CreatedBy)).AsString()
-                .WithColumn(nameof(ProductionOrder.LastModifiedBy)).AsString()
-                .WithColumn(nameof(ProductionOrder.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
-                .WithColumn(nameof(ProductionOrder.OrderId)).AsFixedLengthString(36).Nullable()
-                .WithColumn(nameof(ProductionOrder.ProductId)).AsFixedLengthString(36).Nullable()
-                .WithColumn(nameof(ProductionOrder.OrderItemId)).AsFixedLengthString(36).Nullable()
-                .WithColumn(nameof(ProductionOrder.Quantity)).AsInt32().NotNullable()
-                .WithColumn(nameof(ProductionOrder.ScheduledStartDate)).AsDateTime().Nullable()
-                .WithColumn(nameof(ProductionOrder.ScheduledEndDate)).AsDateTime().Nullable()
-                .WithColumn(nameof(ProductionOrder.ActualStartDate)).AsDateTime().Nullable()
-                .WithColumn(nameof(ProductionOrder.ActualEndDate)).AsDateTime().Nullable()
-                .WithColumn(nameof(ProductionOrder.AssignedTo)).AsString()
-                .WithColumn(nameof(ProductionOrder.Notes)).AsString()
-                .WithColumn(nameof(ProductionOrder.EstimatedTime)).AsInt32().Nullable()
-                .WithColumn(nameof(ProductionOrder.ActualTime)).AsInt32().Nullable()
-                .WithColumn(nameof(ProductionOrder.Status)).AsInt32().NotNullable().WithDefaultValue(EProductionOrderStatus.Pending);
 
-            #endregion
-            #region Offer
+            #region Global
             Create.Table(typeof(Category).Name)
                 .WithColumn(nameof(Category.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Category.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -150,6 +131,52 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Category.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(Category.Description)).AsFixedLengthString(500);
 
+
+            Create.Table(typeof(Type).Name)
+                .WithColumn(nameof(Type.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(Type.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(Type.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(Type.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(Type.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(Type.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(Type.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(Type.Description)).AsFixedLengthString(500);
+
+
+            Create.Table(typeof(AddressData).Name)
+                .WithColumn(nameof(AddressData.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(AddressData.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(AddressData.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(AddressData.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(AddressData.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(AddressData.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(AddressData.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(AddressData.Description)).AsFixedLengthString(500);
+
+
+            Create.Table(typeof(ContactData).Name)
+                .WithColumn(nameof(ContactData.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(ContactData.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(ContactData.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(ContactData.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(ContactData.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(ContactData.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(ContactData.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(ContactData.Description)).AsFixedLengthString(500);
+
+
+            Create.Table(typeof(FiscalData).Name)
+                .WithColumn(nameof(FiscalData.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(FiscalData.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(FiscalData.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(FiscalData.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(FiscalData.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(FiscalData.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(FiscalData.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(FiscalData.Description)).AsFixedLengthString(500);
+            #endregion
+
+            #region Offer
             Create.Table(typeof(Offer).Name)
                 .WithColumn(nameof(Offer.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Offer.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -179,6 +206,7 @@ namespace gesn.webApp.Data.Migrations
             //    .ToTable(typeof(Category).Name).PrimaryColumn(nameof(Category.Id));
 
             #endregion
+
             #region Sales
 
             Create.Table(typeof(Contract).Name)
@@ -253,6 +281,30 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OrderItem.DiscountAmount)).AsDecimal().NotNullable()
                 .WithColumn(nameof(OrderItem.TaxAmount)).AsDecimal().NotNullable()
                 .WithColumn(nameof(OrderItem.Notes)).AsFixedLengthString(1000);
+
+            #endregion
+
+            #region Production
+            Create.Table(typeof(ProductionOrder).Name)
+                .WithColumn(nameof(ProductionOrder.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(ProductionOrder.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(ProductionOrder.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(ProductionOrder.CreatedBy)).AsString()
+                .WithColumn(nameof(ProductionOrder.LastModifiedBy)).AsString()
+                .WithColumn(nameof(ProductionOrder.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(ProductionOrder.OrderId)).AsFixedLengthString(36).Nullable()
+                .WithColumn(nameof(ProductionOrder.ProductId)).AsFixedLengthString(36).Nullable()
+                .WithColumn(nameof(ProductionOrder.OrderItemId)).AsFixedLengthString(36).Nullable()
+                .WithColumn(nameof(ProductionOrder.Quantity)).AsInt32().NotNullable()
+                .WithColumn(nameof(ProductionOrder.ScheduledStartDate)).AsDateTime().Nullable()
+                .WithColumn(nameof(ProductionOrder.ScheduledEndDate)).AsDateTime().Nullable()
+                .WithColumn(nameof(ProductionOrder.ActualStartDate)).AsDateTime().Nullable()
+                .WithColumn(nameof(ProductionOrder.ActualEndDate)).AsDateTime().Nullable()
+                .WithColumn(nameof(ProductionOrder.AssignedTo)).AsString()
+                .WithColumn(nameof(ProductionOrder.Notes)).AsString()
+                .WithColumn(nameof(ProductionOrder.EstimatedTime)).AsInt32().Nullable()
+                .WithColumn(nameof(ProductionOrder.ActualTime)).AsInt32().Nullable()
+                .WithColumn(nameof(ProductionOrder.Status)).AsInt32().NotNullable().WithDefaultValue(EProductionOrderStatus.Pending);
 
             #endregion
 

@@ -1,10 +1,10 @@
 ﻿using Dapper;
+using gesn.webApp.Areas.Identity.Data.Models;
 using gesn.webApp.Interfaces.Data;
-using gesn.webApp.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace gesn.webApp.Infrastructure.Store
+namespace gesn.webApp.Areas.Identity.Data.Stores
 {
     public class DapperRoleStore : IRoleStore<ApplicationRole>, IRoleClaimStore<ApplicationRole>, IQueryableRoleStore<ApplicationRole>
     {
@@ -167,7 +167,7 @@ namespace gesn.webApp.Infrastructure.Store
             try
             {
                 using var connection = await _connectionFactory.CreateConnectionAsync();
-                var roleClaims = await connection.QueryAsync<Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>>(
+                var roleClaims = await connection.QueryAsync<IdentityRoleClaim<string>>(
                     "SELECT * FROM AspNetRoleClaims WHERE RoleId = @RoleId",
                     new { RoleId = role.Id }
                 );

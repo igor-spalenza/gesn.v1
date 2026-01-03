@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using gesn.webApp.Areas.Identity.Data.Models.Role;
+using gesn.webApp.Areas.Identity.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -147,7 +147,7 @@ namespace gesn.webApp.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("GesN.Web"),
+                _urlEncoder.Encode("gesn.webApp"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

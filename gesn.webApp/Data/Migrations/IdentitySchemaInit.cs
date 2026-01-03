@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 
-namespace GesN.Web.Data.Migrations
+namespace gesn.webApp.Data.Migrations
 {
     public class IdentitySchemaInit
     {

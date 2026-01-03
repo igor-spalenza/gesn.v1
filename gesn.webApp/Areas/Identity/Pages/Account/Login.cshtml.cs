@@ -1,4 +1,3 @@
-using gesn.webApp.Areas.Identity.Data.Models.Role;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using Dapper;
 using System.Security.Claims;
 using BCrypt.Net;
 using gesn.webApp.Interfaces.Data;
+using gesn.webApp.Areas.Identity.Data.Models;
 
 namespace gesn.webApp.Areas.Identity.Pages.Account
 {

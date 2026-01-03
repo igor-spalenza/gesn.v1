@@ -4,7 +4,7 @@ using gesn.webApp.Interfaces.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GesN.Web.Areas.Admin.Controllers
+namespace gesn.webApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]

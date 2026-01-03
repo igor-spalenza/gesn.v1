@@ -1,10 +1,10 @@
 ﻿using Dapper;
+using gesn.webApp.Areas.Identity.Data.Models;
+using gesn.webApp.Areas.Identity.Data.Stores;
 using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Services;
-using gesn.webApp.Infrastructure.Store;
 using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Services;
-using gesn.webApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
