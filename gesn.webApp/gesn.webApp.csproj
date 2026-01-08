@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <None Remove="Data\Database\gesn.db" />
+    <None Remove="Data\gesn.db" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,8 +37,11 @@
     <PackageReference Include="Dapper.SqlBuilder" Version="2.1.66" />
     <PackageReference Include="FluentMigrator" Version="7.2.0" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="7.2.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.73.0.3979" />
     <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.72.0.3973" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.22" />

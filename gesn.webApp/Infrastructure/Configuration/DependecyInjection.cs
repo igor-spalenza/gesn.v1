@@ -133,31 +133,51 @@ namespace gesn.webApp.Infrastructure.Configuration
             //        return Task.CompletedTask;
             //    };
             //});
-            services.AddAuthentication()
-                    .AddCookie(IdentityConstants.ApplicationScheme, options =>
+            services.ConfigureApplicationCookie(opt => { 
+                opt.LoginPath = "/Identity/Account/Login";
+                opt.LogoutPath = "/Identity/Account/Logout";
+                opt.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                opt.ExpireTimeSpan = TimeSpan.FromHours(8);
+                opt.SlidingExpiration = true;
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                opt.Cookie.SameSite = SameSiteMode.Lax;
+                opt.Events.OnRedirectToLogin = context =>
+                {
+                    if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                     {
-                        options.LoginPath = "/Identity/Account/Login";
-                        options.LogoutPath = "/Identity/Account/Logout";
-                        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                        context.Response.StatusCode = 401;
+                        return Task.CompletedTask;
+                    }
+                    context.Response.Redirect(context.RedirectUri);
+                    return Task.CompletedTask;
+                };
+            });
+            //services.AddAuthentication()
+            //        .AddCookie(IdentityConstants.ApplicationScheme, options =>
+            //        {
+            //            options.LoginPath = "/Identity/Account/Login";
+            //            options.LogoutPath = "/Identity/Account/Logout";
+            //            options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 
-                        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-                        options.SlidingExpiration = true;
-                        options.Cookie.HttpOnly = true;
-                        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-                        options.Cookie.SameSite = SameSiteMode.Lax;
+            //            options.ExpireTimeSpan = TimeSpan.FromHours(8);
+            //            options.SlidingExpiration = true;
+            //            options.Cookie.HttpOnly = true;
+            //            options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+            //            options.Cookie.SameSite = SameSiteMode.Lax;
 
-                        options.Events.OnRedirectToLogin = context =>
-                        {
-                            if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                            {
-                                context.Response.StatusCode = 401;
-                                return Task.CompletedTask;
-                            }
-                            context.Response.Redirect(context.RedirectUri);
-                            return Task.CompletedTask;
-                        };
-                    })
-                    .AddCookie(IdentityConstants.ExternalScheme);  // resolve o handler faltante
+            //            options.Events.OnRedirectToLogin = context =>
+            //            {
+            //                if (context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            //                {
+            //                    context.Response.StatusCode = 401;
+            //                    return Task.CompletedTask;
+            //                }
+            //                context.Response.Redirect(context.RedirectUri);
+            //                return Task.CompletedTask;
+            //            };
+            //        })
+            //        .AddCookie(IdentityConstants.ExternalScheme);  // resolve o handler faltante
         }
 
         public static void AddAuthorizationServices(this IServiceCollection services)
