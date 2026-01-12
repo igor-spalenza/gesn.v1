@@ -1,4 +1,21 @@
-﻿@page
-@model gesn.webApp.Views.Offer.IndexModel
+﻿@using gesn.webApp.Models.Entities.Offer
+@model Offer
 @{
 }
+
+<div class="index-main">
+
+    <div class="container-fluid">
+        <h1>Ofertas (Produtos/Serviços)</h1><br />
+
+        <button type="button" class="btn mb-3" onclick="productCategoriesManager.novaCategoriaModal()">
+            Criar Novo
+        </button><br />
+
+        @*         <h3 class="text-lg font-semibold mb-2">Lembretes</h3>
+        <p class="text-sm">Sem lembretes no momento.</p> *@
+    </div>
+
+    <div class="_Grid">
+    </div>
+</div>

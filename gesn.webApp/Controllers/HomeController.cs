@@ -23,7 +23,7 @@ namespace gesn.webApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var teste = new BasicOfferInsertVM($@"TESTE {new Random().Next(int.MaxValue)}", new Random().Next(int.MaxValue));
+            var teste = new BasicOfferInsertVM($@"TESTE ", new Random().Next(int.MaxValue));
             var validation = await BasicOfferInsertValidator.ValidateAsync(teste);
 
             if (!validation.IsValid)
