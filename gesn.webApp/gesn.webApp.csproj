@@ -65,8 +65,6 @@
     <Folder Include="Models\ViewModels\Sales\" />
     <Folder Include="Models\ViewModels\Production\" />
     <Folder Include="Context\" />
-    <Folder Include="Views\CompositeOffer\" />
-    <Folder Include="Views\Category\" />
     <Folder Include="Views\Contract\" />
     <Folder Include="Views\Customer\" />
     <Folder Include="Views\AddressData\" />
@@ -74,13 +72,6 @@
     <Folder Include="Views\FiscalData\" />
     <Folder Include="Views\OrderItem\" />
     <Folder Include="Views\OrderEntry\" />
-    <Folder Include="Views\Type\" />
-    <Folder Include="Views\Recipe\" />
-    <Folder Include="Views\OfferHierarchy\" />
-    <Folder Include="Views\OfferGroupItem\" />
-    <Folder Include="Views\OfferGroupExchangeRule\" />
-    <Folder Include="Views\OfferComponent\" />
-    <Folder Include="Views\Offer\" />
   </ItemGroup>
 
   <ItemGroup>
