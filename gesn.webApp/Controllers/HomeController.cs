@@ -1,4 +1,6 @@
 using FluentValidation;
+using gesn.webApp.Infrastructure.Repositories.Templates;
+using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
 using gesn.webApp.Models.Entities.Offer;
@@ -31,7 +33,7 @@ namespace gesn.webApp.Controllers
 
             var teste2 = teste.Adapt<Offer>();
             //Guid obj = await this.TestesServices.AddAsync(teste.Adapt<Offer>());
-            //IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
+            IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
             //var offer = await this.TestesServices.GetAsync(obj);
             //offer.Note = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             //bool flagUpdated = await this.TestesServices.UpdateAsync(offer);
