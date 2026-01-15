@@ -2,7 +2,7 @@
 
 namespace gesn.webApp.Models.ViewModels.Offer.Category
 {
-    public class CategoryUpdateVM : CategoryBaseVM
+    public class CategoryUpdateViewModel : CategoryBaseViewModel
     {
         public EObjectState StateCode { get; set; }
         public string LastModifiedBy { get; set; }

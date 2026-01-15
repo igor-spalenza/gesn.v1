@@ -5,6 +5,7 @@ using gesn.webApp.Infrastructure.FluentValidation;
 using gesn.webApp.Infrastructure.Mappers;
 using gesn.webApp.Infrastructure.Middleware;
 using gesn.webApp.Interfaces.Data;
+using FluentValidation.AspNetCore; // Adicione esta diretiva no topo do arquivo
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = string.Empty;
@@ -26,16 +27,17 @@ builder.Services.AddIdentityServices();
 builder.Services.AddAuthenticationServices();
 builder.Services.AddAuthorizationServices();
 builder.Services.RegisterValidators();
-//builder.Services.addfl
-
-// Configurar antiforgery para aceitar headers (necessário para AJAX com JSON)
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddAntiforgery(options =>
 {
     options.HeaderName = "RequestVerificationToken";
 });
 
 builder.Services.AddRazorPages();                                           // Razor Pages
-builder.Services.AddControllersWithViews();                                 // MVC
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+}); 
 builder.Services.AddInfrastructureServices(connectionString);               // DI + IoC Container | Configs Injection
 builder.Services.RegisterMaps();                                            // Mapster Configuration
 builder.Services.AddGoogleWorkspaceConfiguration(builder.Configuration);    // Google Workspace (People/Calendar/Maps) configs

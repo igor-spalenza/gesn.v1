@@ -54,7 +54,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate> whereAdicional = default, object? parametros = null)
+        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IEnumerable<WhereTemplate> whereAdicional = default, object? parametros = null)
         {
             IEnumerable<T>? obj = default;
             var builder = new SqlBuilder().Select($@"SELECT {template?.Select ?? "*"} FROM {this._tableName} {this._tableName.Substring(0, 1)}");
@@ -87,7 +87,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        private static void SetAdditionalWhere(IList<WhereTemplate> whereAdicional, SqlBuilder builder)
+        private static void SetAdditionalWhere(IEnumerable<WhereTemplate> whereAdicional, SqlBuilder builder)
         {
             if (null != whereAdicional && whereAdicional.Any())
             {
@@ -149,7 +149,7 @@ namespace gesn.webApp.Data.Repositories.Base
             }
         }
 
-        public virtual async Task<IList<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             IList<T>? obj = default;
             string query = $@"SELECT * FROM {this._tableName}";

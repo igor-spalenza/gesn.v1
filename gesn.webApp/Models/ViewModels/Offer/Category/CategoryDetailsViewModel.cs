@@ -2,7 +2,7 @@
 
 namespace gesn.webApp.Models.ViewModels.Offer.Category
 {
-    public record CategoryDetailsVM
+    public record CategoryDetailsViewModel
    (
         string Id,
         string Name,

@@ -2,9 +2,13 @@
 using gesn.webApp.Areas.Identity.Data.Models;
 using gesn.webApp.Areas.Identity.Data.Stores;
 using gesn.webApp.Data.Migrations;
+using gesn.webApp.Infrastructure.Repositories.Offer;
 using gesn.webApp.Infrastructure.Services;
+using gesn.webApp.Infrastructure.Services.Offer.Category;
 using gesn.webApp.Interfaces.Data;
+using gesn.webApp.Interfaces.Repositories.Offer;
 using gesn.webApp.Interfaces.Services;
+using gesn.webApp.Interfaces.Services.Offer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -17,6 +21,10 @@ namespace gesn.webApp.Infrastructure.Configuration
             services.AddScoped<IDbConnectionFactory>(provider => new ProjectDataContext(connectionString));
 
             services.AddHttpContextAccessor();
+
+            //Offer
+            services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // Google Workspace Integration (moved to Integration area)
             //services.AddScoped<IGooglePeopleService, GooglePeopleService>();
@@ -105,7 +113,7 @@ namespace gesn.webApp.Infrastructure.Configuration
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
                 UserClaimsPrincipalFactory<ApplicationUser, ApplicationRole>>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddScoped<ITestesServices, TesteServices>();
+            //services.AddScoped<ITestesServices, TesteServices>();
         }
 
         public static void AddAuthenticationServices(this IServiceCollection services)

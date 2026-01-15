@@ -14,12 +14,12 @@ namespace gesn.webApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        protected ITestesServices TestesServices { get; set; }
+        //protected ITestesServices TestesServices { get; set; }
         private IValidator<BasicOfferInsertVM> BasicOfferInsertValidator;
-        public HomeController(ILogger<HomeController> logger, ITestesServices testesServices, IValidator<BasicOfferInsertVM> validator)
+        public HomeController(ILogger<HomeController> logger, IValidator<BasicOfferInsertVM> validator)
         {
             _logger = logger;
-            this.TestesServices = testesServices;
+            //this.TestesServices = testesServices;
             this.BasicOfferInsertValidator = validator;
         }
 
@@ -33,7 +33,7 @@ namespace gesn.webApp.Controllers
 
             var teste2 = teste.Adapt<Offer>();
             //Guid obj = await this.TestesServices.AddAsync(teste.Adapt<Offer>());
-            IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
+            //IEnumerable<Offer> foo = await this.TestesServices.ReadAsync(OfferTemplates.TesteTemplate, new List<WhereTemplate> { WhereTemplate.Create("O.UnitPrice < 10") });
             //var offer = await this.TestesServices.GetAsync(obj);
             //offer.Note = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             //bool flagUpdated = await this.TestesServices.UpdateAsync(offer);

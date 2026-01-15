@@ -8,12 +8,12 @@ namespace gesn.webApp.Infrastructure.Mappings
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<CategoryInsertVM, Category>()
+            config.NewConfig<CategoryInsertViewModel, Category>()
                 .Ignore(dest => dest.CreatedAt)
                 .Ignore(dest => dest.StateCode)
                 .Map(dest => dest.Id, src => new Guid().ToString());
 
-            config.NewConfig<CategoryUpdateVM, Category>()
+            config.NewConfig<CategoryUpdateViewModel, Category>()
                 .IgnoreNullValues(true)
                 .Ignore(dest => dest.Id)
                 .Ignore(dest => dest.CreatedAt)
