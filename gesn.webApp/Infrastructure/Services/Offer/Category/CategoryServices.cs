@@ -18,37 +18,29 @@ namespace gesn.webApp.Infrastructure.Services.Offer.Category
             this._repo = repository;
         }
 
-        public async Task<Guid> AddAsync(CategoryInsertViewModel vm)
-        {
-            gesn.webApp.Models.Entities.Global.Category entity = _mapper.Map<gesn.webApp.Models.Entities.Global.Category>(vm);
-            await _repo.AddAsync(entity);
-            return Guid.Parse(entity.Id);
-        }
+        public async Task<Guid> AddAsync(CategoryInsertViewModel model) =>
+            await _repo.AddAsync(model.Adapt<gesn.webApp.Models.Entities.Global.Category>());
 
         public Task<bool> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CategorySummaryViewModel>> GetAllAsync()
-        {
-            var categories = await this._repo.GetAllAsync();
-            return categories.Adapt<IList<CategorySummaryViewModel>>();
-        }
+        public async Task<IEnumerable<CategorySummaryViewModel>> GetAllAsync() =>
+            (await this._repo.GetAllAsync()).Adapt<IEnumerable<CategorySummaryViewModel>>();
 
-        public Task<CategoryDetailsViewModel> GetAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<CategoryDetailsViewModel> GetAsync(Guid id) =>
+            (await _repo.GetAsync(id)).Adapt<CategoryDetailsViewModel>();
+
+        public async Task<CategoryUpdateViewModel> GetForUpdateAsync(Guid id) =>
+            (await _repo.GetAsync(id)).Adapt<CategoryUpdateViewModel>();
 
         public Task<IEnumerable<CategorySummaryViewModel>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate>? whereAdicional = null, object? parametros = null)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(CategoryUpdateViewModel vm)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> UpdateAsync(CategoryUpdateViewModel model) =>
+            await _repo.UpdateAsync(model.Adapt<gesn.webApp.Models.Entities.Global.Category>());
     }
 }

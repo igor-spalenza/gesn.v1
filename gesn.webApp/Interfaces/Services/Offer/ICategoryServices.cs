@@ -9,6 +9,7 @@ namespace gesn.webApp.Interfaces.Services.Offer
         Task<bool> DeleteAsync(Guid id);
         Task<IEnumerable<CategorySummaryViewModel>> GetAllAsync();
         Task<CategoryDetailsViewModel> GetAsync(Guid id);
+        Task<CategoryUpdateViewModel> GetForUpdateAsync(Guid id);
         Task<IEnumerable<CategorySummaryViewModel>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate>? whereAdicional = null, object? parametros = null);
         Task<bool> UpdateAsync(CategoryUpdateViewModel vm);
     }

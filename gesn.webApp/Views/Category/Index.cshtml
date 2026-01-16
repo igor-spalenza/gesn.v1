@@ -39,6 +39,9 @@
                             <td>@item.Description</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Editar">
                                         <i class="bi bi-pencil"></i>
                                     </a>

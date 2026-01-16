@@ -19,16 +19,6 @@ namespace gesn.webApp.Controllers
             return View(categories);
         }
 
-        public async Task<IActionResult> Details(Guid id)
-        {
-            CategoryDetailsViewModel category = await this._categoryService.GetAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            return View(category);
-        }
-
         public IActionResult Create()
         {
             return View();
@@ -48,7 +38,6 @@ namespace gesn.webApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Category/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CategoryUpdateViewModel model)
@@ -68,8 +57,19 @@ namespace gesn.webApp.Controllers
             return View(model);
         }
 
-        // POST: Category/Delete/{id}
-        // Usamos POST para segurança (evitar deleção via link GET)
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var viewModel = await _categoryService.GetForUpdateAsync(id);
+
+            if (viewModel == null)
+            {
+                TempData["Error"] = "Categoria não encontrada.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(viewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id)
@@ -82,6 +82,20 @@ namespace gesn.webApp.Controllers
                 TempData["Error"] = "Erro ao tentar remover a categoria.";
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var viewModel = await _categoryService.GetAsync(id);
+
+            if (viewModel == null)
+            {
+                TempData["Error"] = "Categoria não encontrada.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(viewModel);
         }
     }
 }

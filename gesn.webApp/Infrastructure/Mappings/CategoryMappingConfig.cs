@@ -14,12 +14,13 @@ namespace gesn.webApp.Infrastructure.Mappings
                 .Map(dest => dest.Id, src => new Guid().ToString());
 
             config.NewConfig<CategoryUpdateViewModel, Category>()
-                .IgnoreNullValues(true)
+                .IgnoreNullValues(false)
                 .Ignore(dest => dest.Id)
                 .Ignore(dest => dest.CreatedAt)
                 .Ignore(dest => dest.CreatedBy)
                 .Ignore(dest => dest.StateCode)
-                .Map(dest => dest.LastModifiedAt, src => DateTime.UtcNow);
+                .Map(dest => dest.LastModifiedAt, src => DateTime.UtcNow)
+                .Map(dest => dest.LastModifiedBy, src => "TESTE IMPLEMENTAÇÃO ALTERAR");
         }
     }
 }

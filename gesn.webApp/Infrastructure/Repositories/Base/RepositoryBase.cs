@@ -230,9 +230,6 @@ namespace gesn.webApp.Data.Repositories.Base
 
         private static bool HasIdentity<T>() => typeof(T).GetProperty("Id") != null;
 
-        private static void SetProperty<T>(T entity, string propName, object value) =>
-            typeof(T).GetProperty(propName)?.SetValue(entity, value);
-
         public static PropertyInfo PrimaryKeyProperty<T>()
         {
             return typeof(T).GetProperties()
