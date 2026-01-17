@@ -5,6 +5,8 @@ namespace gesn.webApp.Models.Entities.Base
 {
     public abstract class Entity
     {
+        #region PROPERTIES
+
         /// <summary>
         /// Identificador único da entidade (GUID como string)
         /// </summary>
@@ -45,6 +47,25 @@ namespace gesn.webApp.Models.Entities.Base
         [Required]
         [Display(Name = "Estado")]
         public EObjectState StateCode { get; set; } = EObjectState.ACTIVE;
+
+        /// <summary>
+        /// Nome da entidade
+        /// </summary>
+        [Required(ErrorMessage = "O nome é obrigatório")]
+        [Display(Name = "Nome")]
+        [MaxLength(200)]
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Descrição da entidade
+        /// </summary>
+        [Display(Name = "Descrição")]
+        [MaxLength(500)]
+        public string? Description { get; set; }
+
+        #endregion
+
+        #region METHODS
 
         /// <summary>
         /// Verifica se a entidade está ativa
@@ -139,5 +160,27 @@ namespace gesn.webApp.Models.Entities.Base
         {
             return !(left == right);
         }
+
+
+        /// <summary>
+        /// Obtém o nome para exibição
+        /// </summary>
+        public string GetDisplayName() =>
+            string.IsNullOrWhiteSpace(Name) ? "Dados Fiscais sem nome" : Name;
+
+        /// <summary>
+        /// Verifica se a categoria possui dados básicos completos
+        /// </summary>
+        public bool HasCompleteData() =>
+            !string.IsNullOrWhiteSpace(Name);
+
+        /// <summary>
+        /// Override do ToString para exibir nome da categoria
+        /// </summary>
+        public override string ToString() =>
+            GetDisplayName();
+
+
+        #endregion
     }
 }
