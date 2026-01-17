@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using gesn.webApp.Validators.Category;
+using gesn.webApp.Validators.Type;
 
 namespace gesn.webApp.Infrastructure.FluentValidation
 {
@@ -9,7 +10,9 @@ namespace gesn.webApp.Infrastructure.FluentValidation
         {
             services.AddValidatorsFromAssemblyContaining<CategoryInsertViewModelValidator>();
             services.AddValidatorsFromAssemblyContaining<CategoryUpdateViewModelValidator>();
-            
+            services.AddValidatorsFromAssemblyContaining<TypeInsertViewModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<TypeUpdateViewModelValidator>();
+
             return services;        }
     }
 }

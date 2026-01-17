@@ -152,7 +152,7 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             IList<T>? obj = default;
-            string query = $@"SELECT * FROM {this._tableName}";
+            string query = $@"SELECT * FROM {this._tableName} WHERE";
 
             if (null != _connectionFactory)
             {
@@ -171,8 +171,7 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<Guid> AddAsync(T entity, IDbTransaction? transaction = null)
         {
             PropertyInfo pk = PrimaryKeyProperty<T>();
-            Guid newId = Guid.NewGuid();
-            pk.SetValue(entity, newId.ToString());
+            int rowsAffected = 0;
 
             var props = GetInsertProperties<T>(entity);
 
@@ -183,10 +182,13 @@ namespace gesn.webApp.Data.Repositories.Base
             if (null != this._connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-                await connection.ExecuteAsync(query, entity, transaction);
+                rowsAffected = await connection.ExecuteAsync(query, entity, transaction);
             }
 
-            return newId;
+            if (rowsAffected == 0)
+                throw new Exception("Erro ao inserir registro.");
+            else
+                return Guid.Parse(pk.GetValue(entity)?.ToString());
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)

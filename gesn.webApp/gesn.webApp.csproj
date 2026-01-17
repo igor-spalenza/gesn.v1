@@ -72,6 +72,7 @@
     <Folder Include="Views\AddressData\" />
     <Folder Include="Views\ContactData\" />
     <Folder Include="Views\FiscalData\" />
+    <Folder Include="Views\Global\" />
     <Folder Include="Views\OrderItem\" />
     <Folder Include="Views\OrderEntry\" />
   </ItemGroup>

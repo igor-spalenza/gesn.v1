@@ -1,20 +1,73 @@
-﻿@model Type
-@{
+﻿@model IEnumerable<gesn.webApp.Models.ViewModels.Global.TypeSummaryViewModel>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>@ViewData["Title"]</h1>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> New Type
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
-<div class="index-main">
-
-    <div class="container-fluid">
-        <h1>Tipos de Oferta</h1><br />
-
-        <button type="button" class="btn mb-3" onclick="productCategoriesManager.novaCategoriaModal()">
-            Criar Novo
-        </button><br />
-
-@*         <h3 class="text-lg font-semibold mb-2">Lembretes</h3>
-        <p class="text-sm">Sem lembretes no momento.</p> *@
-    </div>
-
-    <div class="_Grid">
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                            onclick="confirmDelete('@item.Id', '@item.Name')" title="Excluir">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">Nenhuma tipo encontrado.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id, name) {
+            if (confirm(`Deseja realmente excluir o tipo "${name}"?`)) {
+                // Aqui você faria a chamada para sua Action de Delete
+                window.location.href = `/Type/Delete/${id}`;
+            }
+        }
+    </script>
+}

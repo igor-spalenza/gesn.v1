@@ -7,7 +7,6 @@ namespace gesn.webApp.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryServices _categoryService;
-
         public CategoryController(ICategoryServices categoryService)
         {
             this._categoryService = categoryService;
@@ -19,10 +18,8 @@ namespace gesn.webApp.Controllers
             return View(categories);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() =>
+            View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]

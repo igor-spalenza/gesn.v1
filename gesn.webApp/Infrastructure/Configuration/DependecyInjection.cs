@@ -4,10 +4,12 @@ using gesn.webApp.Areas.Identity.Data.Stores;
 using gesn.webApp.Data.Migrations;
 using gesn.webApp.Infrastructure.Repositories.Offer;
 using gesn.webApp.Infrastructure.Services;
+using gesn.webApp.Infrastructure.Services.Global;
 using gesn.webApp.Infrastructure.Services.Offer.Category;
 using gesn.webApp.Interfaces.Data;
+using gesn.webApp.Interfaces.Repositories.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;
-using gesn.webApp.Interfaces.Services;
+using gesn.webApp.Interfaces.Services.Global;
 using gesn.webApp.Interfaces.Services.Offer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -25,6 +27,10 @@ namespace gesn.webApp.Infrastructure.Configuration
             //Offer
             services.AddScoped<ICategoryServices, CategoryServices>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+            //Global
+            services.AddScoped<ITypeService, TypeServices>();
+            services.AddScoped<ITypeRepository, TypeRepository>();
 
             // Google Workspace Integration (moved to Integration area)
             //services.AddScoped<IGooglePeopleService, GooglePeopleService>();
