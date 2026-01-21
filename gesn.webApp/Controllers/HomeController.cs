@@ -1,4 +1,6 @@
 using FluentValidation;
+using gesn.webApp.Infrastructure.Repositories.Templates;
+using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Interfaces.Services;
 using gesn.webApp.Models;
 using gesn.webApp.Models.Entities.Offer;
@@ -12,12 +14,12 @@ namespace gesn.webApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        protected ITestesServices TestesServices { get; set; }
+        //protected ITestesServices TestesServices { get; set; }
         private IValidator<BasicOfferInsertVM> BasicOfferInsertValidator;
-        public HomeController(ILogger<HomeController> logger, ITestesServices testesServices, IValidator<BasicOfferInsertVM> validator)
+        public HomeController(ILogger<HomeController> logger, IValidator<BasicOfferInsertVM> validator)
         {
             _logger = logger;
-            this.TestesServices = testesServices;
+            //this.TestesServices = testesServices;
             this.BasicOfferInsertValidator = validator;
         }
 

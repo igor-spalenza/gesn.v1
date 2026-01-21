@@ -40,6 +40,7 @@
     <PackageReference Include="FluentMigrator" Version="7.2.0" />
     <PackageReference Include="FluentMigrator.Runner.SQLite" Version="7.2.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.73.0.3979" />
     <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.72.0.3973" />
@@ -59,6 +60,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
     <PackageReference Include="SQLitePCLRaw.provider.e_sqlite3" Version="3.0.2" />
   </ItemGroup>
@@ -76,6 +78,7 @@
     <Folder Include="Views\AddressData\" />
     <Folder Include="Views\ContactData\" />
     <Folder Include="Views\FiscalData\" />
+    <Folder Include="Views\Global\" />
     <Folder Include="Views\OrderItem\" />
     <Folder Include="Views\OrderEntry\" />
     <Folder Include="wwwroot\ts\Offer\" />

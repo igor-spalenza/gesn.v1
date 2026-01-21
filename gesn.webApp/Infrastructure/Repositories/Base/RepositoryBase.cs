@@ -54,7 +54,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate> whereAdicional = default, object? parametros = null)
+        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IEnumerable<WhereTemplate> whereAdicional = default, object? parametros = null)
         {
             IEnumerable<T>? obj = default;
             var builder = new SqlBuilder().Select($@"SELECT {template?.Select ?? "*"} FROM {this._tableName} {this._tableName.Substring(0, 1)}");
@@ -87,7 +87,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        private static void SetAdditionalWhere(IList<WhereTemplate> whereAdicional, SqlBuilder builder)
+        private static void SetAdditionalWhere(IEnumerable<WhereTemplate> whereAdicional, SqlBuilder builder)
         {
             if (null != whereAdicional && whereAdicional.Any())
             {
@@ -149,7 +149,7 @@ namespace gesn.webApp.Data.Repositories.Base
             }
         }
 
-        public virtual async Task<IList<T>> GetAllAsync()
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             IList<T>? obj = default;
             string query = $@"SELECT * FROM {this._tableName}";
@@ -171,8 +171,7 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<Guid> AddAsync(T entity, IDbTransaction? transaction = null)
         {
             PropertyInfo pk = PrimaryKeyProperty<T>();
-            Guid newId = Guid.NewGuid();
-            pk.SetValue(entity, newId.ToString());
+            int rowsAffected = 0;
 
             var props = GetInsertProperties<T>(entity);
 
@@ -183,10 +182,13 @@ namespace gesn.webApp.Data.Repositories.Base
             if (null != this._connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-                await connection.ExecuteAsync(query, entity, transaction);
+                rowsAffected = await connection.ExecuteAsync(query, entity, transaction);
             }
 
-            return newId;
+            if (rowsAffected == 0)
+                throw new Exception($"Erro de Infraestrutura: Nenhuma linha foi inserida na tabela {this._tableName}.");
+
+                return Guid.Parse(pk.GetValue(entity)?.ToString());
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)
@@ -229,9 +231,6 @@ namespace gesn.webApp.Data.Repositories.Base
         private static string PrimaryKeyName<T>() => "Id";
 
         private static bool HasIdentity<T>() => typeof(T).GetProperty("Id") != null;
-
-        private static void SetProperty<T>(T entity, string propName, object value) =>
-            typeof(T).GetProperty(propName)?.SetValue(entity, value);
 
         public static PropertyInfo PrimaryKeyProperty<T>()
         {

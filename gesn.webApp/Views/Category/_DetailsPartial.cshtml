@@ -1,0 +1,84 @@
+﻿@using gesn.webApp.Models.Enums.Global
+@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryDetailsViewModel
+
+<div class="side-panel-details">
+    @* Cabeçalho de ID e Ações rápidas *@
+    <div class="d-flex justify-content-between align-items-center mb-4 p-2 bg-light border rounded">
+        <small class="text-muted"><i class="fas fa-tag me-1"></i> ID: @Model.Id</small>
+        <button type="button" class="btn btn-sm btn-outline-warning" onclick="loadSidePanel('@Model.Id', 'Edit')">
+            <i class="fas fa-edit"></i> Editar
+        </button>
+    </div>
+
+    @* Seção: Informações Gerais *@
+    <h6 class="text-primary border-bottom pb-2 mb-3">
+        <i class="fas fa-info-circle me-2"></i>Informações Gerais
+    </h6>
+
+    <dl class="row small">
+        <dt class="col-4 text-muted">Nome</dt>
+        <dd class="col-8 fw-bold">@Model.Name</dd>
+
+        <dt class="col-4 text-muted">Status</dt>
+        <dd class="col-8">
+            @if (Model.StateCode == EObjectState.ACTIVE)
+            {
+                <span class="badge bg-success">Ativo</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Inativo</span>
+            }
+        </dd>
+
+        <dt class="col-12 text-muted mt-2">Descrição</dt>
+        <dd class="col-12 mt-1">
+            <div class="p-2 border rounded bg-white" style="min-height: 60px;">
+                @if (string.IsNullOrWhiteSpace(Model.Description))
+                {
+                    <span class="text-muted fst-italic">Nenhuma descrição fornecida.</span>
+                }
+                else
+                {
+                    @Model.Description
+                }
+            </div>
+        </dd>
+    </dl>
+
+    @* Seção: Auditoria *@
+    <h6 class="text-secondary border-bottom pb-2 mb-3 mt-4">
+        <i class="fas fa-history me-2"></i>Auditoria
+    </h6>
+
+    <div class="bg-light p-3 rounded small">
+        <div class="mb-2">
+            <strong>Criado em:</strong><br>
+            <span class="text-dark">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <div class="mb-2">
+            <strong>Por:</strong>
+            <span class="text-dark">@(string.IsNullOrWhiteSpace(Model.CreatedBy) ? "Não informado" : Model.CreatedBy)</span>
+        </div>
+
+        @if (Model.LastModifiedAt != null && Model.LastModifiedAt != DateTime.MinValue)
+        {
+            <hr class="my-2">
+            <div class="mb-2">
+                <strong>Última Modificação:</strong><br>
+                <span class="text-dark">@Model.LastModifiedAt.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+            <div>
+                <strong>Por:</strong>
+                <span class="text-dark">@(string.IsNullOrWhiteSpace(Model.LastModifiedBy) ? "Não informado" : Model.LastModifiedBy)</span>
+            </div>
+        }
+    </div>
+
+    @* Botão de Fechar *@
+    <div class="d-grid gap-2 mt-4">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas">
+            Voltar para a lista
+        </button>
+    </div>
+</div>

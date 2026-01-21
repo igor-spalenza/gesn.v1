@@ -1,0 +1,107 @@
+﻿@using gesn.webApp.Models.Enums.Global
+@model gesn.webApp.Models.ViewModels.Global.TypeDetailsViewModel
+
+@{
+    @if (Model?.Name != null && !string.IsNullOrWhiteSpace(Model.Name))
+    {
+        ViewData["Title"] = $"Detalhes de {Model.Name}";
+    }
+}
+
+<div class="container-fluid px-4">
+    @if (Model?.Name != null && !string.IsNullOrWhiteSpace(Model.Name))
+    {
+        <h1 class="mt-4">Detalhes de @Model.Name</h1>
+    }
+    else
+    {
+        <h1 class="mt-4">Detalhes do Tipo</h1>
+    }
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-tag me-2"></i><b>ID:</b> @Model.Id</span>
+            <div class="btn-group">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-warning">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-list"></i> Voltar
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="text-primary border-bottom pb-2">Informações Gerais</h5>
+                    <dl class="row mt-3">
+                        <dt class="col-sm-3 text-muted">Descrição</dt>
+                        <dd class="col-sm-9">
+                            @if (string.IsNullOrWhiteSpace(Model.Description))
+                            {
+                                <span class="text-muted i">Nenhuma descrição fornecida.</span>
+                            }
+                            else
+                            {
+                                @Model.Description
+                            }
+                        </dd>
+
+                        <dt class="col-sm-3 text-muted">Status</dt>
+                        <dd class="col-sm-9">
+                            @if (Model.StateCode == EObjectState.ACTIVE)
+                            {
+                                <span class="badge bg-success">Ativo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inativo</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="col-md-4 border-start">
+                    <h5 class="text-secondary border-bottom pb-2">Auditoria</h5>
+                    <div class="mt-3 small">
+                        <p>
+                            <strong>Criado em:</strong><br>
+                            @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                        </p>
+                        <p>
+                            <strong>Criado por:</strong><br>
+                            @if (string.IsNullOrWhiteSpace(Model.CreatedBy))
+                            {
+                                <span class="text-muted i">Não informado.</span>
+                            }
+                            else
+                            {
+                                @Model.CreatedBy
+                            }
+                        </p>
+                        <hr>
+                        @if (Model?.LastModifiedAt != null && Model.LastModifiedAt != DateTime.MinValue)
+                        {
+                            <p>
+                                <strong>Última Modificação:</strong><br>
+                                @Model.LastModifiedAt.ToString("dd/MM/yyyy HH:mm")
+                            </p>
+                            <p>
+                                <strong>Modificado por:</strong><br>
+                                @if (string.IsNullOrWhiteSpace(Model.LastModifiedBy))
+                                {
+                                    <span class="text-muted i">Não informado.</span>
+                                }
+                                else
+                                {
+                                    @Model.LastModifiedBy
+                                }
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,10 +6,10 @@ namespace gesn.webApp.Interfaces.Repositories.Base
     public interface IRepositoryBase<T>
     {
         Task<T> GetAsync(Guid id);
-        Task<IList<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync();
         Task<Guid> AddAsync(T entity, IDbTransaction? transaction = null);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> UpdateAsync(T entity);
-        Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IList<WhereTemplate>? whereAdicional = default, object? parametros = null);
+        Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IEnumerable<WhereTemplate>? whereAdicional = default, object? parametros = null);
     }
 }

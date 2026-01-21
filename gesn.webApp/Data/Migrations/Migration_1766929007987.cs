@@ -119,7 +119,6 @@ namespace gesn.webApp.Data.Migrations
 
             #endregion
 
-
             #region Global
             Create.Table(typeof(Category).Name)
                 .WithColumn(nameof(Category.Id)).AsFixedLengthString(36).PrimaryKey()

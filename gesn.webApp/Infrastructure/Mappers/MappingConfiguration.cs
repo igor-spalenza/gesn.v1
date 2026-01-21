@@ -1,4 +1,6 @@
 ﻿using Mapster;
+using MapsterMapper;
+using System.Reflection;
 
 namespace gesn.webApp.Infrastructure.Mappers
 {
@@ -6,7 +8,11 @@ namespace gesn.webApp.Infrastructure.Mappers
     {
         public static IServiceCollection RegisterMaps(this IServiceCollection services)
         {
-            services.AddMapster();
+            var config = new TypeAdapterConfig();
+            config.Scan(Assembly.GetExecutingAssembly());
+
+            services.AddSingleton(config);
+            services.AddScoped<IMapper, ServiceMapper>();
             return services;
         }
     }

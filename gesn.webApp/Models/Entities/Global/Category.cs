@@ -15,15 +15,6 @@ namespace gesn.webApp.Models.Entities.Global
         public Category() { }
 
         /// <summary>
-        /// Construtor com dados básicos
-        /// </summary>
-        public Category(string name, string? description = null)
-        {
-            Name = name;
-            Description = description;
-        }
-
-        /// <summary>
         /// Obtém o nome para exibição
         /// </summary>
         public string GetDisplayName() =>

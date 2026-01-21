@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using gesn.webApp.Models.ViewModels.Offer.CompositeProduct;
-using gesn.webApp.Validators.Offer.CompositeProduct;
+using gesn.webApp.Validators.Category;
+using gesn.webApp.Validators.Type;
 
 namespace gesn.webApp.Infrastructure.FluentValidation
 {
@@ -8,9 +8,11 @@ namespace gesn.webApp.Infrastructure.FluentValidation
     {
         public static IServiceCollection RegisterValidators(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<BasicOfferInsertVM>, BasicOfferInsertValidator>();
+            services.AddValidatorsFromAssemblyContaining<CategoryInsertViewModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<CategoryUpdateViewModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<TypeInsertViewModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<TypeUpdateViewModelValidator>();
 
-            return services;
-        }
+            return services;        }
     }
 }

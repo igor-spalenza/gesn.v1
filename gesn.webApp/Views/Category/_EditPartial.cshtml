@@ -1,0 +1,69 @@
+﻿@using gesn.webApp.Models.Enums.Global
+@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryUpdateViewModel
+
+<form asp-action="Edit" method="post" id="formEditCategory">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @* Campo oculto para o ID *@
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label fw-bold">Nome da Categoria</label>
+        <input asp-for="Name" class="form-control" placeholder="Digite o nome..." />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label fw-bold">Descrição</label>
+        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Detalhes da categoria..."></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-4 p-3 bg-light border rounded">
+        <label asp-for="StateCode" class="form-label fw-bold">Status da Categoria</label>
+        <select asp-for="StateCode" class="form-select" asp-items="Html.GetEnumSelectList<EObjectState>()">
+        </select>
+        <span asp-validation-for="StateCode" class="text-danger small"></span>
+    </div>
+
+    <div class="row g-2 mt-4">
+        <div class="col-4">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-save me-1"></i> Gravar
+            </button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <i class="fas fa-trash me-1"></i> Excluir
+            </button>
+        </div>
+        <div class="col-4 text-center mt-2">
+            <button type="button" class="btn btn-link text-muted text-decoration-none" data-bs-dismiss="offcanvas">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-danger shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Exclusão</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja remover <strong>@Model.Name</strong> permanentemente?</p>
+                <p class="text-danger small mb-0">Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Desistir</button>
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
