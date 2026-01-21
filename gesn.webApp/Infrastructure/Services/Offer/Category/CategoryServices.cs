@@ -21,10 +21,8 @@ namespace gesn.webApp.Infrastructure.Services.Offer.Category
         public async Task<Guid> AddAsync(CategoryInsertViewModel model) =>
             await _repo.AddAsync(model.Adapt<gesn.webApp.Models.Entities.Global.Category>());
 
-        public Task<bool> DeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> DeleteAsync(Guid id) =>
+                 await this._repo.DeleteAsync(id);
 
         public async Task<IEnumerable<CategorySummaryViewModel>> GetAllAsync() =>
             (await this._repo.GetAllAsync()).Adapt<IEnumerable<CategorySummaryViewModel>>();

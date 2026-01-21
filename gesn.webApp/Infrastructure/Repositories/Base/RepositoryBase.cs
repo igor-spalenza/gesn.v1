@@ -152,7 +152,7 @@ namespace gesn.webApp.Data.Repositories.Base
         public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
             IList<T>? obj = default;
-            string query = $@"SELECT * FROM {this._tableName} WHERE";
+            string query = $@"SELECT * FROM {this._tableName}";
 
             if (null != _connectionFactory)
             {
@@ -186,8 +186,8 @@ namespace gesn.webApp.Data.Repositories.Base
             }
 
             if (rowsAffected == 0)
-                throw new Exception("Erro ao inserir registro.");
-            else
+                throw new Exception($"Erro de Infraestrutura: Nenhuma linha foi inserida na tabela {this._tableName}.");
+
                 return Guid.Parse(pk.GetValue(entity)?.ToString());
         }
 

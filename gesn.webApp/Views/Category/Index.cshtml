@@ -1,11 +1,10 @@
 ﻿@model IEnumerable<gesn.webApp.Models.ViewModels.Offer.Category.CategorySummaryViewModel>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>@ViewData["Title"]</h1>
-    <a asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Nova Categoria
-    </a>
-</div>
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate" aria-controls="offcanvasCreate">
+    <i class="fas fa-plus me-1"></i> Nova Categoria
+</button>
+
+<partial name="_SidePanelCreate" model="new gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel()" />
 
 @if (TempData["Success"] != null)
 {
@@ -14,6 +13,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasContent" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header bg-light border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasLabel">Carregando...</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="sidePanelBody">
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status"></div>
+        </div>
+    </div>
+</div>
 
 <div class="card shadow-sm">
     <div class="card-body">
@@ -35,12 +46,16 @@
                             <td>@item.Description</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Detalhes">
+                                    <button type="button" class="btn btn-sm btn-outline-info"
+                                            onclick="loadSidePanel('@item.Id', 'Details')" title="Detalhes">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            onclick="loadSidePanel('@item.Id', 'Edit')" title="Editar">
                                         <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
+                                    </button>
+
                                     <button type="button" class="btn btn-sm btn-outline-danger"
                                             onclick="confirmDelete('@item.Id', '@item.Name')" title="Excluir">
                                         <i class="bi bi-trash"></i>
@@ -60,14 +75,88 @@
         </table>
     </div>
 </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-danger shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirmar Exclusão</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja remover <strong id="strong-category-name"></strong> permanentemente?</p>
+                <p class="text-danger small mb-0">Esta ação não poderá ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Desistir</button>
+                <form asp-action="Delete" id="formDeleteCategory" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="delete-category-id" name="id" />
+                    <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
-        function confirmDelete(id, name) {
-            if (confirm(`Deseja realmente excluir a categoria "${name}"?`)) {
-                // Aqui você faria a chamada para sua Action de Delete
-                window.location.href = `/Category/Delete/${id}`;
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lógica para reabrir Painel de Criação
+            const openCreate = '@(TempData["OpenCreatePanel"]?.ToString().ToLower() ?? "false")';
+            if (openCreate === 'true') {
+                var modal = new bootstrap.Offcanvas(document.getElementById('offcanvasCreate'));
+                modal.show();
             }
+
+            // Lógica para reabrir Painel de Edição (caso ocorra erro de validação)
+            const editId = '@(TempData["OpenEditPanel"] ?? "")';
+            if (editId !== '') {
+                loadSidePanel(editId, 'Edit');
+            }
+        });
+
+        // Função unificada para carregar Details e Edit
+        function loadSidePanel(id, action) {
+            debugger;
+            const title = action === 'Edit' ? 'Editar Categoria' : 'Detalhes da Categoria';
+            const url = `/Category/Get${action}Partial/${id}`;
+
+            document.getElementById('offcanvasLabel').innerText = title;
+            document.getElementById('sidePanelBody').innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary"></div></div>';
+
+            var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasContent'));
+            bsOffcanvas.show();
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error("Erro na requisição");
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('sidePanelBody').innerHTML = html;
+                    if (action === 'Edit') {
+                        // Re-vincula a validação do lado do cliente
+                        $.validator.unobtrusive.parse("#sidePanelBody form");
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('sidePanelBody').innerHTML =
+                        '<div class="alert alert-danger">Não foi possível carregar os dados. Verifique a conexão.</div>';
+                });
+        }
+
+        function confirmDelete(id, name) {
+            debugger;
+            let categoryNameField = document.getElementById('strong-category-name');
+            if(categoryNameField)
+                categoryNameField.textContent = name;
+
+            let idField = document.getElementById('delete-category-id');
+            if(idField)
+                idField.value = id;
+
+            var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            myModal.show();
         }
     </script>
 }

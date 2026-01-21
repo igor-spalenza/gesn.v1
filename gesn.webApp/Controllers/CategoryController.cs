@@ -26,12 +26,12 @@ namespace gesn.webApp.Controllers
         public async Task<IActionResult> Create(CategoryInsertViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+            {
+                TempData["OpenCreatePanel"] = true;
+                return View("Index", await _categoryService.GetAllAsync()); // Retorna para a lista
+            }
 
             await _categoryService.AddAsync(model);
-
-            TempData["Success"] = "Categoria criada com sucesso!";
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -40,18 +40,21 @@ namespace gesn.webApp.Controllers
         public async Task<IActionResult> Edit(CategoryUpdateViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+            {
+                TempData["OpenEditPanel"] = model.Id;
+                return View("Index", await _categoryService.GetAllAsync());
+            }
 
             var success = await _categoryService.UpdateAsync(model);
 
             if (success)
             {
-                TempData["Success"] = "Categoria atualizada!";
+                TempData["Success"] = "Categoria atualizada com sucesso!";
                 return RedirectToAction(nameof(Index));
             }
 
-            ModelState.AddModelError("", "Erro ao atualizar.");
-            return View(model);
+            TempData["Error"] = "Erro ao atualizar a categoria no banco de dados.";
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(Guid id)
@@ -82,7 +85,7 @@ namespace gesn.webApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> GetDetailsPartial(Guid id)
         {
             var viewModel = await _categoryService.GetAsync(id);
 
@@ -92,7 +95,16 @@ namespace gesn.webApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(viewModel);
+            return PartialView("_DetailsPartial", viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEditPartial(Guid id)
+        {
+            var viewModel = await _categoryService.GetForUpdateAsync(id);
+            if (viewModel == null)
+                return NotFound();
+            return PartialView("_EditPartial", viewModel);
         }
     }
 }

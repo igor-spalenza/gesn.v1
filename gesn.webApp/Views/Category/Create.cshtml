@@ -1,7 +1,4 @@
 ﻿@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel
-@* @{
-    ViewData["Title"] = "View";
-} *@
 
 <div class="container mt-4">
     <div class="row justify-content-center">
@@ -12,7 +9,6 @@
                 </div>
                 <div class="card-body">
                     <form asp-action="Create" method="post">
-                        @* O Antiforgery já está configurado no seu Program.cs *@
                         @Html.AntiForgeryToken()
 
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
