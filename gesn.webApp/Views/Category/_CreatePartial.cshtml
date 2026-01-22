@@ -1,0 +1,45 @@
+﻿@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCreate" aria-labelledby="offcanvasCreateLabel">
+    <div class="offcanvas-header bg-light border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasCreateLabel">
+            <i class="fas fa-tag me-2"></i>Incluir categoria
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Nome</label>
+                <input asp-for="Name" class="form-control" placeholder="Digite o nome..." />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Descrição</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Breve descrição..."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="alert alert-info small">
+                <i class="fas fa-info-circle me-1"></i> 
+                Os campos de auditoria e status serão gerados automaticamente pelo sistema.
+            </div>
+
+            <div class="row g-2 mt-4">
+                <div class="col-12">
+                    <div class="btn-group float-end" role="group">
+                        <button type="submit" class="btn btn-outline-primary wtext-muted text-decoration-none" title="Salvar alterações">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger text-muted text-decoration-none" data-bs-dismiss="offcanvas" title="Fechar painel">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

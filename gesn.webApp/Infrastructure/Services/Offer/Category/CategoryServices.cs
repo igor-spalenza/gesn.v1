@@ -1,4 +1,5 @@
 ﻿using gesn.webApp.Infrastructure.Repositories.Templates.Base;
+using gesn.webApp.Infrastructure.Repositories.Templates.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;
 using gesn.webApp.Interfaces.Services.Offer;
 using gesn.webApp.Models.ViewModels.Offer.Category;
@@ -25,7 +26,7 @@ namespace gesn.webApp.Infrastructure.Services.Offer.Category
                  await this._repo.DeleteAsync(id);
 
         public async Task<IEnumerable<CategorySummaryViewModel>> GetAllAsync() =>
-            (await this._repo.GetAllAsync()).Adapt<IEnumerable<CategorySummaryViewModel>>();
+            (await this._repo.ReadAsync(CategoryTemplate.CategorySummaryTemplate)).Adapt<IEnumerable<CategorySummaryViewModel>>();
 
         public async Task<CategoryDetailsViewModel> GetAsync(Guid id) =>
             (await _repo.GetAsync(id)).Adapt<CategoryDetailsViewModel>();

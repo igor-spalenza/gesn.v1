@@ -1,9 +1,9 @@
-﻿@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel
+﻿@model gesn.webApp.Models.ViewModels.Global.TypeInsertViewModel
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCreate" aria-labelledby="offcanvasCreateLabel">
     <div class="offcanvas-header bg-light border-bottom">
         <h5 class="offcanvas-title" id="offcanvasCreateLabel">
-            <i class="fas fa-tag me-2"></i> Cadastrar Nova
+            <i class="fas fa-tag me-2"></i> Incluir tipo
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -28,13 +28,17 @@
                 Os campos de auditoria e status serão gerados automaticamente pelo sistema.
             </div>
 
-            <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save me-1"></i> Salvar Registro
-                </button>
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">
-                    Cancelar
-                </button>
+            <div class="row g-2 mt-4">
+                <div class="col-12">
+                    <div class="btn-group float-end" role="group">
+                        <button type="submit" class="btn btn-outline-primary wtext-muted text-decoration-none" title="Salvar alterações">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger text-muted text-decoration-none" data-bs-dismiss="offcanvas" title="Fechar painel">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>

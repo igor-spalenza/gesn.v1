@@ -1,5 +1,5 @@
 ﻿@using gesn.webApp.Models.Enums.Global
-@model gesn.webApp.Models.ViewModels.Offer.Category.CategoryUpdateViewModel
+@model gesn.webApp.Models.ViewModels.Global.TypeUpdateViewModel
 
 <form asp-action="Edit" method="post" id="formEditCategory">
     @Html.AntiForgeryToken()
@@ -8,14 +8,14 @@
     <input type="hidden" asp-for="Id" />
 
     <div class="mb-3">
-        <label asp-for="Name" class="form-label fw-bold">Nome da Categoria</label>
+        <label asp-for="Name" class="form-label fw-bold">Nome</label>
         <input asp-for="Name" class="form-control" placeholder="Digite o nome..." />
         <span asp-validation-for="Name" class="text-danger small"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Description" class="form-label fw-bold">Descrição</label>
-        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Detalhes da categoria..."></textarea>
+        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Descrição..."></textarea>
         <span asp-validation-for="Description" class="text-danger small"></span>
     </div>
 

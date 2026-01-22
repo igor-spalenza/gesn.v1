@@ -1,10 +1,6 @@
 ﻿@model IEnumerable<gesn.webApp.Models.ViewModels.Offer.Category.CategorySummaryViewModel>
 
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate" aria-controls="offcanvasCreate">
-    <i class="fas fa-plus me-1"></i> Nova Categoria
-</button>
-
-<partial name="_SidePanelCreate" model="new gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel()" />
+<partial name="_CreatePartial" model="new gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel()" />
 
 @if (TempData["Success"] != null)
 {
@@ -27,6 +23,13 @@
 </div>
 
 <div class="card shadow-sm">
+    <div class="card-header">
+        <div class="col-2 float-end">
+            <button class="btn btn-sm btn-outline-primary float-end" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCreate" aria-controls="offcanvasCreate" title="Incluir categoria">
+                <i class="fa-solid fa-plus"></i>
+            </button>
+        </div>
+    </div>
     <div class="card-body">
         <table class="table table-hover">
             <thead class="table-light">
@@ -101,24 +104,20 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Lógica para reabrir Painel de Criação
             const openCreate = '@(TempData["OpenCreatePanel"]?.ToString().ToLower() ?? "false")';
             if (openCreate === 'true') {
                 var modal = new bootstrap.Offcanvas(document.getElementById('offcanvasCreate'));
                 modal.show();
             }
 
-            // Lógica para reabrir Painel de Edição (caso ocorra erro de validação)
             const editId = '@(TempData["OpenEditPanel"] ?? "")';
             if (editId !== '') {
                 loadSidePanel(editId, 'Edit');
             }
         });
 
-        // Função unificada para carregar Details e Edit
         function loadSidePanel(id, action) {
-            debugger;
-            const title = action === 'Edit' ? 'Editar Categoria' : 'Detalhes da Categoria';
+            const title = action === 'Edit' ? 'Editar' : 'Detalhes';
             const url = `/Category/Get${action}Partial/${id}`;
 
             document.getElementById('offcanvasLabel').innerText = title;
@@ -135,7 +134,6 @@
                 .then(html => {
                     document.getElementById('sidePanelBody').innerHTML = html;
                     if (action === 'Edit') {
-                        // Re-vincula a validação do lado do cliente
                         $.validator.unobtrusive.parse("#sidePanelBody form");
                     }
                 })
@@ -146,7 +144,6 @@
         }
 
         function confirmDelete(id, name) {
-            debugger;
             let categoryNameField = document.getElementById('strong-category-name');
             if(categoryNameField)
                 categoryNameField.textContent = name;
