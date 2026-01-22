@@ -6,27 +6,6 @@ namespace gesn.webApp.Models.Entities.Offer
 {
     public class Offer : Entity
     {
-        ///// <summary>
-        ///// Tipo do produto (determinado pela classe concreta)
-        ///// </summary>
-        //[Display(Name = "Tipo de Produto")]
-        //public virtual EProductType ProductType { get; protected set; }
-
-        /// <summary>
-        /// Nome do produto
-        /// </summary>
-        [Required]
-        [StringLength(200)]
-        [Display(Name = "Nome")]
-        public string Name { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Descrição do produto
-        /// </summary>
-        [StringLength(500)]
-        [Display(Name = "Descrição")]
-        public string? Description { get; set; } = string.Empty;
-
         /// <summary>
         /// Preço do produto
         /// </summary>
@@ -121,12 +100,6 @@ namespace gesn.webApp.Models.Entities.Offer
             Name = name;
             Price = price;
         }
-
-        /// <summary>
-        /// Obtém o nome para exibição
-        /// </summary>
-        public string GetDisplayName() =>
-            string.IsNullOrWhiteSpace(Name) ? "Produto sem nome" : Name;
 
         /// <summary>
         /// Obtém informações de preço formatadas

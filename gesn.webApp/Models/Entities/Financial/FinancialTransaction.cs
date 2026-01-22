@@ -1,6 +1,8 @@
-﻿namespace gesn.webApp.Models.Entities.Financial
+﻿using gesn.webApp.Models.Entities.Base;
+
+namespace gesn.webApp.Models.Entities.Financial
 {
-    public class FinancialTransaction
+    public class FinancialTransaction : Entity
     {
     }
 }

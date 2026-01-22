@@ -1,6 +1,8 @@
-﻿namespace gesn.webApp.Models.Entities.Store
+﻿using gesn.webApp.Models.Entities.Base;
+
+namespace gesn.webApp.Models.Entities.Store
 {
-    public class Ingredient
+    public class Ingredient : Entity
     {
     }
 }

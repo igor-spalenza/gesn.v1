@@ -5,20 +5,9 @@ namespace gesn.webApp.Models.Entities.Global
 {
     public class Category : Entity
     {
-        /// <summary>
-        /// Nome da categoria
-        /// </summary>
-        [Required(ErrorMessage = "O nome da Categoria é obrigatório")]
-        [Display(Name = "Nome")]
-        [MaxLength(200)]
-        public string Name { get; set; } = string.Empty;
+        #region PROPERTIES
 
-        /// <summary>
-        /// Descrição da categoria
-        /// </summary>
-        [Display(Name = "Descrição")]
-        [MaxLength(500)]
-        public string? Description { get; set; }
+        #endregion
 
         /// <summary>
         /// Construtor padrão

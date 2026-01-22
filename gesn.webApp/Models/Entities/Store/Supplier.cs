@@ -1,6 +1,8 @@
-﻿namespace gesn.webApp.Models.Entities.Store
+﻿using gesn.webApp.Models.Entities.Base;
+
+namespace gesn.webApp.Models.Entities.Store
 {
-    public class Supplier
+    public class Supplier : Entity
     {
     }
 }

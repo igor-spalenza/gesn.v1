@@ -204,7 +204,74 @@ namespace gesn.webApp.Data.Migrations
             //    .FromTable(typeof(Offer).Name).ForeignColumn(nameof(Offer.CategoryId))
             //    .ToTable(typeof(Category).Name).PrimaryColumn(nameof(Category.Id));
 
+
+            Create.Table(typeof(CompositeOffer).Name)
+                .WithColumn(nameof(CompositeOffer.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(CompositeOffer.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(CompositeOffer.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(CompositeOffer.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(CompositeOffer.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(CompositeOffer.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(CompositeOffer.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(CompositeOffer.Description)).AsFixedLengthString(500).Nullable();
+
+
+            Create.Table(typeof(OfferComponent).Name)
+                .WithColumn(nameof(OfferComponent.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(OfferComponent.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(OfferComponent.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(OfferComponent.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferComponent.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferComponent.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(OfferComponent.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(OfferComponent.Description)).AsFixedLengthString(500).Nullable();
+
+
+            Create.Table(typeof(OfferGroupExchangeRule).Name)
+                .WithColumn(nameof(OfferGroupExchangeRule.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(OfferGroupExchangeRule.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(OfferGroupExchangeRule.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(OfferGroupExchangeRule.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferGroupExchangeRule.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferGroupExchangeRule.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(OfferGroupExchangeRule.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(OfferGroupExchangeRule.Description)).AsFixedLengthString(500).Nullable();
+
+
+            Create.Table(typeof(OfferGroupItem).Name)
+                .WithColumn(nameof(OfferGroupItem.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(OfferGroupItem.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(OfferGroupItem.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(OfferGroupItem.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferGroupItem.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferGroupItem.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(OfferGroupItem.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(OfferGroupItem.Description)).AsFixedLengthString(500).Nullable();
+
+
+            Create.Table(typeof(Offer).Name)
+                .WithColumn(nameof(OfferHierarchy.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(OfferHierarchy.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(OfferHierarchy.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(OfferHierarchy.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferHierarchy.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(OfferHierarchy.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(OfferHierarchy.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(OfferHierarchy.Description)).AsFixedLengthString(500).Nullable();
+
+
+            Create.Table(typeof(Recipe).Name)
+                .WithColumn(nameof(Recipe.Id)).AsFixedLengthString(36).PrimaryKey()
+                .WithColumn(nameof(Recipe.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
+                .WithColumn(nameof(Recipe.LastModifiedAt)).AsDateTime().Nullable()
+                .WithColumn(nameof(Recipe.CreatedBy)).AsString().Nullable()
+                .WithColumn(nameof(Recipe.LastModifiedBy)).AsString().Nullable()
+                .WithColumn(nameof(Recipe.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
+                .WithColumn(nameof(Recipe.Name)).AsFixedLengthString(200)
+                .WithColumn(nameof(Recipe.Description)).AsFixedLengthString(500).Nullable();
+
             #endregion
+
 
             #region Sales
 
