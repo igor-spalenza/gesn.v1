@@ -6,7 +6,6 @@ using gesn.webApp.Infrastructure.Repositories.Global;
 using gesn.webApp.Infrastructure.Repositories.Offer;
 using gesn.webApp.Infrastructure.Services;
 using gesn.webApp.Infrastructure.Services.Global;
-using gesn.webApp.Infrastructure.Services.Offer.Category;
 using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Repositories.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;

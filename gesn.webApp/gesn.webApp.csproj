@@ -61,6 +61,7 @@
   <ItemGroup>
     <Folder Include="Areas\Integrations\GoogleWorkspace\" />
     <Folder Include="Data\Database\" />
+    <Folder Include="Infrastructure\Services\Offer\Category\" />
     <Folder Include="Models\Entities\Financial\" />
     <Folder Include="Models\ViewModels\Financial\" />
     <Folder Include="Models\ViewModels\Sales\" />

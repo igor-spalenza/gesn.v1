@@ -6,7 +6,7 @@ using gesn.webApp.Models.ViewModels.Global;
 using Mapster;
 using MapsterMapper;
 
-namespace gesn.webApp.Infrastructure.Services.Offer.Category
+namespace gesn.webApp.Infrastructure.Services.Global
 {
     public class CategoryServices : ICategoryServices
     {
@@ -20,7 +20,7 @@ namespace gesn.webApp.Infrastructure.Services.Offer.Category
         }
 
         public async Task<Guid> AddAsync(CategoryInsertViewModel model) =>
-            await _repo.AddAsync(model.Adapt<gesn.webApp.Models.Entities.Global.Category>());
+            await _repo.AddAsync(model.Adapt<Models.Entities.Global.Category>());
 
         public async Task<bool> DeleteAsync(Guid id) =>
                  await this._repo.DeleteAsync(id);
@@ -40,6 +40,6 @@ namespace gesn.webApp.Infrastructure.Services.Offer.Category
         }
 
         public async Task<bool> UpdateAsync(CategoryUpdateViewModel model) =>
-            await _repo.UpdateAsync(model.Adapt<gesn.webApp.Models.Entities.Global.Category>());
+            await _repo.UpdateAsync(model.Adapt<Models.Entities.Global.Category>());
     }
 }
