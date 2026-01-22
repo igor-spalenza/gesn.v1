@@ -1,6 +1,7 @@
-﻿@model IEnumerable<gesn.webApp.Models.ViewModels.Offer.Category.CategorySummaryViewModel>
+﻿@using gesn.webApp.Models.ViewModels.Global
+@model IEnumerable<CategorySummaryViewModel>
 
-<partial name="_CreatePartial" model="new gesn.webApp.Models.ViewModels.Offer.Category.CategoryInsertViewModel()" />
+<partial name="_CreatePartial" model="new gesn.webApp.Models.ViewModels.Global.CategoryInsertViewModel()" />
 
 @if (TempData["Success"] != null)
 {

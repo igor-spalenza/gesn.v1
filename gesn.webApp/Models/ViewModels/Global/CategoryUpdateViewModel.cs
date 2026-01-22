@@ -1,6 +1,6 @@
 ﻿using gesn.webApp.Models.Enums.Global;
 
-namespace gesn.webApp.Models.ViewModels.Offer.Category
+namespace gesn.webApp.Models.ViewModels.Global
 {
     public class CategoryUpdateViewModel : CategoryBaseViewModel
     {

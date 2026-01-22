@@ -1,5 +1,5 @@
 ﻿using gesn.webApp.Models.Entities.Global;
-using gesn.webApp.Models.ViewModels.Offer.Category;
+using gesn.webApp.Models.ViewModels.Global;
 using Mapster;
 
 namespace gesn.webApp.Infrastructure.Mappings

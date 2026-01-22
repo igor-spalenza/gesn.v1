@@ -1,5 +1,5 @@
 ﻿using gesn.webApp.Infrastructure.Repositories.Templates.Base;
-using gesn.webApp.Models.ViewModels.Offer.Category;
+using gesn.webApp.Models.ViewModels.Global;
 
 namespace gesn.webApp.Interfaces.Services.Offer
 {

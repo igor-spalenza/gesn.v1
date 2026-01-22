@@ -1,4 +1,4 @@
-﻿namespace gesn.webApp.Models.ViewModels.Offer.Category
+﻿namespace gesn.webApp.Models.ViewModels.Global
 {
     public class CategoryBaseViewModel
     {

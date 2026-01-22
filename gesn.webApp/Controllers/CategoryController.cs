@@ -1,5 +1,5 @@
 ﻿using gesn.webApp.Interfaces.Services.Offer;
-using gesn.webApp.Models.ViewModels.Offer.Category;
+using gesn.webApp.Models.ViewModels.Global;
 using Microsoft.AspNetCore.Mvc;
 
 namespace gesn.webApp.Controllers

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using gesn.webApp.Models.ViewModels.Offer.Category;
+using gesn.webApp.Models.ViewModels.Global;
 
 namespace gesn.webApp.Validators.Category
 {
