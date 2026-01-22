@@ -1,4 +1,4 @@
-﻿using gesn.webApp.Interfaces.Services.Offer;
+﻿using gesn.webApp.Interfaces.Services.Global;
 using gesn.webApp.Models.ViewModels.Global;
 using Microsoft.AspNetCore.Mvc;
 

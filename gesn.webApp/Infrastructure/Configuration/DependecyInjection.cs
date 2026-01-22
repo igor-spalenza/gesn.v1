@@ -11,7 +11,6 @@ using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Repositories.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;
 using gesn.webApp.Interfaces.Services.Global;
-using gesn.webApp.Interfaces.Services.Offer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 

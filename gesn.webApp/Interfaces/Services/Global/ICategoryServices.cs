@@ -1,7 +1,7 @@
 ﻿using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Models.ViewModels.Global;
 
-namespace gesn.webApp.Interfaces.Services.Offer
+namespace gesn.webApp.Interfaces.Services.Global
 {
     public interface ICategoryServices
     {

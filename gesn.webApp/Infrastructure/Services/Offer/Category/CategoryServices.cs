@@ -1,7 +1,7 @@
 ﻿using gesn.webApp.Infrastructure.Repositories.Templates.Base;
 using gesn.webApp.Infrastructure.Repositories.Templates.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;
-using gesn.webApp.Interfaces.Services.Offer;
+using gesn.webApp.Interfaces.Services.Global;
 using gesn.webApp.Models.ViewModels.Global;
 using Mapster;
 using MapsterMapper;
