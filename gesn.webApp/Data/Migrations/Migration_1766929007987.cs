@@ -15,7 +15,54 @@ namespace gesn.webApp.Data.Migrations
     [Migration(1766929007987)]
     public class Migration_1766929007987 : Migration
     {
-        public override void Down() { }
+        public override void Down()
+        {
+            #region Production
+            if (Schema.Table(typeof(ProductionOrder).Name).Exists()) Delete.Table(typeof(ProductionOrder).Name);
+            #endregion
+
+            #region Sales
+            if (Schema.Table(typeof(OrderItem).Name).Exists()) Delete.Table(typeof(OrderItem).Name);
+            if (Schema.Table(typeof(OrderEntry).Name).Exists()) Delete.Table(typeof(OrderEntry).Name);
+            if (Schema.Table(typeof(Customer).Name).Exists()) Delete.Table(typeof(Customer).Name);
+            if (Schema.Table(typeof(Contract).Name).Exists()) Delete.Table(typeof(Contract).Name);
+            #endregion
+
+            #region Offer
+            if (Schema.Table(typeof(Recipe).Name).Exists()) Delete.Table(typeof(Recipe).Name);
+            if (Schema.Table(typeof(OfferHierarchy).Name).Exists()) Delete.Table(typeof(OfferHierarchy).Name);
+            if (Schema.Table(typeof(OfferGroupItem).Name).Exists()) Delete.Table(typeof(OfferGroupItem).Name);
+            if (Schema.Table(typeof(OfferGroupExchangeRule).Name).Exists()) Delete.Table(typeof(OfferGroupExchangeRule).Name);
+            if (Schema.Table(typeof(OfferComponent).Name).Exists()) Delete.Table(typeof(OfferComponent).Name);
+            if (Schema.Table(typeof(CompositeOffer).Name).Exists()) Delete.Table(typeof(CompositeOffer).Name);
+            if (Schema.Table(typeof(Offer).Name).Exists()) Delete.Table(typeof(Offer).Name);
+            #endregion
+
+            #region Global
+            if (Schema.Table(typeof(FiscalData).Name).Exists()) Delete.Table(typeof(FiscalData).Name);
+            if (Schema.Table(typeof(ContactData).Name).Exists()) Delete.Table(typeof(ContactData).Name);
+            if (Schema.Table(typeof(AddressData).Name).Exists()) Delete.Table(typeof(AddressData).Name);
+            if (Schema.Table(typeof(Type).Name).Exists()) Delete.Table(typeof(Type).Name);
+            if (Schema.Table(typeof(Category).Name).Exists()) Delete.Table(typeof(Category).Name);
+            #endregion
+
+            #region Identity
+            // Deletar tabelas de junção e claims primeiro
+            if (Schema.Table("AspNetUserTokens").Exists()) Delete.Table("AspNetUserTokens");
+            if (Schema.Table("AspNetUserRoles").Exists()) Delete.Table("AspNetUserRoles");
+            if (Schema.Table("AspNetUserLogins").Exists()) Delete.Table("AspNetUserLogins");
+            if (Schema.Table("AspNetUserClaims").Exists()) Delete.Table("AspNetUserClaims");
+            if (Schema.Table("AspNetRoleClaims").Exists()) Delete.Table("AspNetRoleClaims");
+
+            // Deletar tabelas principais do Identity
+            if (Schema.Table("AspNetUsers").Exists()) Delete.Table("AspNetUsers");
+            if (Schema.Table("AspNetRoles").Exists()) Delete.Table("AspNetRoles");
+
+            // Tabelas customizadas do ApplicationUser/Role (se existirem separadas)
+            if (Schema.Table(typeof(ApplicationUser).Name).Exists()) Delete.Table(typeof(ApplicationUser).Name);
+            if (Schema.Table(typeof(ApplicationRole).Name).Exists()) Delete.Table(typeof(ApplicationRole).Name);
+            #endregion
+        }
 
         public override void Up()
         {
@@ -130,7 +177,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Category.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(Category.Description)).AsFixedLengthString(500);
 
-
             Create.Table(typeof(Type).Name)
                 .WithColumn(nameof(Type.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(Type.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -140,7 +186,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Type.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
                 .WithColumn(nameof(Type.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(Type.Description)).AsFixedLengthString(500);
-
 
             Create.Table(typeof(AddressData).Name)
                 .WithColumn(nameof(AddressData.Id)).AsFixedLengthString(36).PrimaryKey()
@@ -152,7 +197,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(AddressData.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(AddressData.Description)).AsFixedLengthString(500);
 
-
             Create.Table(typeof(ContactData).Name)
                 .WithColumn(nameof(ContactData.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(ContactData.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -162,7 +206,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(ContactData.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
                 .WithColumn(nameof(ContactData.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(ContactData.Description)).AsFixedLengthString(500);
-
 
             Create.Table(typeof(FiscalData).Name)
                 .WithColumn(nameof(FiscalData.Id)).AsFixedLengthString(36).PrimaryKey()
@@ -204,7 +247,6 @@ namespace gesn.webApp.Data.Migrations
             //    .FromTable(typeof(Offer).Name).ForeignColumn(nameof(Offer.CategoryId))
             //    .ToTable(typeof(Category).Name).PrimaryColumn(nameof(Category.Id));
 
-
             Create.Table(typeof(CompositeOffer).Name)
                 .WithColumn(nameof(CompositeOffer.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(CompositeOffer.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -214,7 +256,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(CompositeOffer.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
                 .WithColumn(nameof(CompositeOffer.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(CompositeOffer.Description)).AsFixedLengthString(500).Nullable();
-
 
             Create.Table(typeof(OfferComponent).Name)
                 .WithColumn(nameof(OfferComponent.Id)).AsFixedLengthString(36).PrimaryKey()
@@ -226,7 +267,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OfferComponent.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(OfferComponent.Description)).AsFixedLengthString(500).Nullable();
 
-
             Create.Table(typeof(OfferGroupExchangeRule).Name)
                 .WithColumn(nameof(OfferGroupExchangeRule.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(OfferGroupExchangeRule.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
@@ -236,7 +276,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OfferGroupExchangeRule.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
                 .WithColumn(nameof(OfferGroupExchangeRule.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(OfferGroupExchangeRule.Description)).AsFixedLengthString(500).Nullable();
-
 
             Create.Table(typeof(OfferGroupItem).Name)
                 .WithColumn(nameof(OfferGroupItem.Id)).AsFixedLengthString(36).PrimaryKey()
@@ -248,8 +287,7 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OfferGroupItem.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(OfferGroupItem.Description)).AsFixedLengthString(500).Nullable();
 
-
-            Create.Table(typeof(Offer).Name)
+            Create.Table(typeof(OfferHierarchy).Name)
                 .WithColumn(nameof(OfferHierarchy.Id)).AsFixedLengthString(36).PrimaryKey()
                 .WithColumn(nameof(OfferHierarchy.CreatedAt)).AsDateTime().WithDefaultValue(DateTime.UtcNow).NotNullable()
                 .WithColumn(nameof(OfferHierarchy.LastModifiedAt)).AsDateTime().Nullable()
@@ -258,7 +296,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(OfferHierarchy.StateCode)).AsInt32().NotNullable().WithDefaultValue(EObjectState.ACTIVE)
                 .WithColumn(nameof(OfferHierarchy.Name)).AsFixedLengthString(200)
                 .WithColumn(nameof(OfferHierarchy.Description)).AsFixedLengthString(500).Nullable();
-
 
             Create.Table(typeof(Recipe).Name)
                 .WithColumn(nameof(Recipe.Id)).AsFixedLengthString(36).PrimaryKey()
@@ -271,7 +308,6 @@ namespace gesn.webApp.Data.Migrations
                 .WithColumn(nameof(Recipe.Description)).AsFixedLengthString(500).Nullable();
 
             #endregion
-
 
             #region Sales
 

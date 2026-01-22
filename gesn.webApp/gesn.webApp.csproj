@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <None Remove="Data\Database\gesn.db" />
-    <None Remove="Data\gesn.db" />
   </ItemGroup>
 
   <ItemGroup>
