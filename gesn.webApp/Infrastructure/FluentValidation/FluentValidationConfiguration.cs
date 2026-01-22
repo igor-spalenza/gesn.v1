@@ -13,6 +13,7 @@ namespace gesn.webApp.Infrastructure.FluentValidation
             services.AddValidatorsFromAssemblyContaining<TypeInsertViewModelValidator>();
             services.AddValidatorsFromAssemblyContaining<TypeUpdateViewModelValidator>();
 
-            return services;        }
+            return services;
+        }
     }
 }

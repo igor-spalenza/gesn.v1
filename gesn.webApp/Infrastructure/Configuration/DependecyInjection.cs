@@ -2,6 +2,7 @@
 using gesn.webApp.Areas.Identity.Data.Models;
 using gesn.webApp.Areas.Identity.Data.Stores;
 using gesn.webApp.Data.Migrations;
+using gesn.webApp.Infrastructure.Repositories.Global;
 using gesn.webApp.Infrastructure.Repositories.Offer;
 using gesn.webApp.Infrastructure.Services;
 using gesn.webApp.Infrastructure.Services.Global;
@@ -25,10 +26,11 @@ namespace gesn.webApp.Infrastructure.Configuration
             services.AddHttpContextAccessor();
 
             //Offer
-            services.AddScoped<ICategoryServices, CategoryServices>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();
 
             //Global
+            services.AddScoped<ICategoryServices, CategoryServices>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ITypeService, TypeServices>();
             services.AddScoped<ITypeRepository, TypeRepository>();
 

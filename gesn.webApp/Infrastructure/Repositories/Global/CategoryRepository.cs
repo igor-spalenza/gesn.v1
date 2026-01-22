@@ -3,7 +3,7 @@ using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Repositories.Offer;
 using gesn.webApp.Models.Entities.Global;
 
-namespace gesn.webApp.Infrastructure.Repositories.Offer
+namespace gesn.webApp.Infrastructure.Repositories.Global
 {
     public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
