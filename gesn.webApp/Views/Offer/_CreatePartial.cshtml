@@ -1,0 +1,82 @@
+﻿@using gesn.webApp.Models.ViewModels.Offer
+@model OfferInsertViewModel
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCreate" aria-labelledby="offcanvasCreateLabel">
+    <div class="offcanvas-header bg-light border-bottom">
+        <h5 class="offcanvas-title" id="offcanvasCreateLabel">
+            <i class="fas fa-tag me-2"></i>Incluir oferta
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold"></label>
+                <textarea asp-for="Description" class="form-control" rows="4" style="resize:none;"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="@Model.Categories" class="form-label fw-bold"></label>
+                <select asp-for="CategoryId"
+                        asp-items="Model.Categories"
+                        class="form-select">
+                    <option value="">-- Selecione uma Categoria --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label fw-bold"></label>
+                <input asp-for="Price" class="form-control money" type="text" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="QuantityPrice" class="form-label fw-bold"></label>
+                <input asp-for="QuantityPrice" class="form-control" />
+                <span asp-validation-for="QuantityPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="UnitPrice" class="form-label fw-bold"></label>
+                <input asp-for="UnitPrice" class="form-control money" type="text" />
+                <span asp-validation-for="UnitPrice" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cost" class="form-label fw-bold"></label>
+                <input asp-for="Cost" class="form-control money" type="text" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Note" class="form-label fw-bold"></label>
+                <textarea asp-for="Note" class="form-control" rows="4" style="resize:none;"></textarea>
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AssemblyTime" class="form-label fw-bold"></label>
+                <input asp-for="AssemblyTime" class="form-control" />
+                <span asp-validation-for="AssemblyTime" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AssemblyInformation" class="form-label fw-bold"></label>
+                <textarea asp-for="AssemblyInformation" class="form-control" rows="4" style="resize:none;"></textarea>
+                <span asp-validation-for="AssemblyInformation" class="text-danger"></span>
+            </div>
+            <div class="row g-2 mt-4">
+                <div class="col-12">
+                    <div class="btn-group float-end" role="group">
+                        <button type="submit" class="btn btn-outline-primary wtext-muted text-decoration-none" title="Salvar alterações">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger text-muted text-decoration-none" data-bs-dismiss="offcanvas" title="Fechar painel">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -7,60 +7,20 @@ namespace gesn.webApp.Models.Entities.Base
     {
         #region PROPERTIES
 
-        /// <summary>
-        /// Identificador único da entidade (GUID como string)
-        /// </summary>
-        [Key]
-        [Required]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        /// <summary>
-        /// Data e hora de criação da entidade
-        /// </summary>
-        [Required]
-        [Display(Name = "Data de Criação")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        /// <summary>
-        /// Identificador do usuário que criou a entidade
-        /// </summary>
-        [Required]
-        [Display(Name = "Criado Por")]
         public string CreatedBy { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Data e hora da última modificação (opcional)
-        /// </summary>
-        [Display(Name = "Data de Modificação")]
         public DateTime? LastModifiedAt { get; set; }
 
-        /// <summary>
-        /// Identificador do usuário que fez a última modificação (opcional)
-        /// </summary>
-        [Display(Name = "Modificado Por")]
         public string? LastModifiedBy { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Estado do objeto (Active/Inactive)
-        /// Armazenado como INTEGER no banco de dados
-        /// </summary>
-        [Required]
-        [Display(Name = "Estado")]
         public EObjectState StateCode { get; set; } = EObjectState.ACTIVE;
 
-        /// <summary>
-        /// Nome da entidade
-        /// </summary>
-        [Required(ErrorMessage = "O nome é obrigatório")]
-        [Display(Name = "Nome")]
-        [MaxLength(200)]
         public string Name { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Descrição da entidade
-        /// </summary>
-        [Display(Name = "Descrição")]
-        [MaxLength(500)]
         public string? Description { get; set; }
 
         #endregion

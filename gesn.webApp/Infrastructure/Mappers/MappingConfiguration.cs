@@ -8,11 +8,11 @@ namespace gesn.webApp.Infrastructure.Mappers
     {
         public static IServiceCollection RegisterMaps(this IServiceCollection services)
         {
-            var config = new TypeAdapterConfig();
-            config.Scan(Assembly.GetExecutingAssembly());
+            TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
 
-            services.AddSingleton(config);
+            services.AddSingleton(TypeAdapterConfig.GlobalSettings);
             services.AddScoped<IMapper, ServiceMapper>();
+
             return services;
         }
     }

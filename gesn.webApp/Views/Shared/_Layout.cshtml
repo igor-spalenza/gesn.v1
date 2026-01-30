@@ -125,6 +125,21 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        // 1. Correção global do validador para aceitar vírgula decimal (PT-BR)
+        if ($.validator) {
+            $.validator.methods.number = function (value, element) {
+                return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+            };
+        }
+
+        // 2. Inicialização global de máscaras para classes comuns
+        $(document).ready(function() {
+            $('.money').mask('#.##0,00', { reverse: true });
+            $('.cpf').mask('000.000.000-00');
+            // Adicione outras máscaras globais aqui
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

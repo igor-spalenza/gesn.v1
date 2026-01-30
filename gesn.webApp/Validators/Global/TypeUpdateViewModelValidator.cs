@@ -26,6 +26,6 @@ namespace gesn.webApp.Validators.Type
         }
 
         private bool CheckDateTimeNotInFuture(DateTime dateTime) =>
-         dateTime <= DateTime.Now;
+            dateTime <= DateTime.Now;
     }
 }

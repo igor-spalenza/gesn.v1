@@ -6,10 +6,12 @@ using gesn.webApp.Infrastructure.Repositories.Global;
 using gesn.webApp.Infrastructure.Repositories.Offer;
 using gesn.webApp.Infrastructure.Services;
 using gesn.webApp.Infrastructure.Services.Global;
+using gesn.webApp.Infrastructure.Services.Offer;
 using gesn.webApp.Interfaces.Data;
 using gesn.webApp.Interfaces.Repositories.Global;
 using gesn.webApp.Interfaces.Repositories.Offer;
 using gesn.webApp.Interfaces.Services.Global;
+using gesn.webApp.Interfaces.Services.Offer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -24,6 +26,7 @@ namespace gesn.webApp.Infrastructure.Configuration
             services.AddHttpContextAccessor();
 
             //Offer
+            services.AddScoped<IOfferService, OfferServices>();
             services.AddScoped<IOfferRepository, OfferRepository>();
 
             //Global

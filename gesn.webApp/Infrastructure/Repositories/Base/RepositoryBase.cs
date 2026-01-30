@@ -13,7 +13,7 @@ namespace gesn.webApp.Data.Repositories.Base
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
-        private readonly IDbConnectionFactory _connectionFactory;
+        protected readonly IDbConnectionFactory _connectionFactory;
         private readonly string _tableName = typeof(T).Name;
 
         public RepositoryBase(IDbConnectionFactory conn)
@@ -54,7 +54,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        public async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IEnumerable<WhereTemplate> whereAdicional = default, object? parametros = null)
+        public virtual async Task<IEnumerable<T>> ReadAsync(QueryTemplate? template = null, IEnumerable<WhereTemplate> whereAdicional = default, object? parametros = null)
         {
             IEnumerable<T>? obj = default;
             var builder = new SqlBuilder().Select($@"SELECT {template?.Select ?? "*"} FROM {this._tableName} {this._tableName.Substring(0, 1)}");
@@ -87,7 +87,7 @@ namespace gesn.webApp.Data.Repositories.Base
             return obj;
         }
 
-        private static void SetAdditionalWhere(IEnumerable<WhereTemplate> whereAdicional, SqlBuilder builder)
+        protected static void SetAdditionalWhere(IEnumerable<WhereTemplate> whereAdicional, SqlBuilder builder)
         {
             if (null != whereAdicional && whereAdicional.Any())
             {
@@ -107,7 +107,7 @@ namespace gesn.webApp.Data.Repositories.Base
             }
         }
 
-        private static void SetWhere(QueryTemplate? template, SqlBuilder builder)
+        protected static void SetWhere(QueryTemplate? template, SqlBuilder builder)
         {
             if (template != null && template.Wheres.Any())
             {
@@ -127,7 +127,7 @@ namespace gesn.webApp.Data.Repositories.Base
             }
         }
 
-        private static void SetJoins(QueryTemplate? template, SqlBuilder builder)
+        protected static void SetJoins(QueryTemplate? template, SqlBuilder builder)
         {
             if (null != template && template.Joins.Any())
             {
@@ -157,9 +157,9 @@ namespace gesn.webApp.Data.Repositories.Base
             if (null != _connectionFactory)
             {
                 using IDbConnection connection = await _connectionFactory.CreateConnectionAsync();
-
                 if (null != connection)
                 {
+                    
                     var result = await connection.QueryAsync<T>(query);
                     obj = result.ToList();
                 }
@@ -188,7 +188,7 @@ namespace gesn.webApp.Data.Repositories.Base
             if (rowsAffected == 0)
                 throw new Exception($"Erro de Infraestrutura: Nenhuma linha foi inserida na tabela {this._tableName}.");
 
-                return Guid.Parse(pk.GetValue(entity)?.ToString());
+            return Guid.Parse(pk.GetValue(entity)?.ToString());
         }
 
         public virtual async Task<bool> DeleteAsync(Guid id)
@@ -225,12 +225,6 @@ namespace gesn.webApp.Data.Repositories.Base
                 .Select(p => (name: p.Name, parameter: p.Name))
                 .ToList();
         }
-
-        private static string TableName<T>() => $@"{typeof(T).Name}s";
-
-        private static string PrimaryKeyName<T>() => "Id";
-
-        private static bool HasIdentity<T>() => typeof(T).GetProperty("Id") != null;
 
         public static PropertyInfo PrimaryKeyProperty<T>()
         {

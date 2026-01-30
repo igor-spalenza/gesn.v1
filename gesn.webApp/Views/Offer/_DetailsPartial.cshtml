@@ -1,0 +1,108 @@
+﻿@using gesn.webApp.Models.Enums.Global
+@model gesn.webApp.Models.ViewModels.Offer.OfferDetailsViewModel
+
+<div class="side-panel-details">
+    <h6 class="text-primary border-bottom pb-2 mb-3">
+        <i class="fas fa-info-circle me-2"></i>Informações Gerais
+    </h6>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <label asp-for="Id" class="small text-muted d-block"></label>
+            <span class="text-truncate d-block small">@Model.Id</span>
+        </div>
+        <div class="col-md-6 float-end">
+            <label asp-for="StateCode" class="small text-muted d-block"></label>
+            @if (Model.StateCode == EObjectState.ACTIVE)
+            {
+                <span class="badge bg-success">Ativo</span>
+            }
+            else
+            {
+                <span class="badge bg-danger">Inativo</span>
+            }
+        </div>
+
+        <div class="col-12">
+            <label asp-for="Name" class="small text-muted d-block"></label>
+            <span class="fw-bold">@Model.Name</span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="CategoryName" class="small text-muted d-block">Categoria</label>
+            <span class="badge bg-light text-dark border">@Model.CategoryName</span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="SKU" class="small text-muted d-block"></label>
+            <span>@Model.SKU</span>
+        </div>
+    </div>
+
+    <h6 class="text-primary border-bottom pb-2 mb-3 mt-4">
+        <i class="fas fa-tag me-2"></i>Valores e Produção
+    </h6>
+
+    <div class="row g-3">
+        <div class="col-6">
+            <label asp-for="Price" class="small text-muted d-block"></label>
+            <span class="fw-bold text-primary">@Model.Price.ToString("C")</span>
+        </div>
+        <div class="col-6">
+            <label asp-for="Cost" class="small text-muted d-block"></label>
+            <span class="text-danger">@Model.Cost.ToString("C")</span>
+        </div>
+        <div class="col-6">
+            <label asp-for="UnitPrice" class="small text-muted d-block"></label>
+            <span>@Model.UnitPrice.ToString("C")</span>
+        </div>
+        <div class="col-6">
+            <label asp-for="AssemblyTime" class="small text-muted d-block"></label>
+            <span>@Model.AssemblyTime min</span>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <label asp-for="Description" class="small text-muted d-block"></label>
+        <div class="p-2 border rounded bg-white mt-1 small" style="min-height: 60px;">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+    </div>
+
+    <h6 class="text-secondary border-bottom pb-2 mb-3 mt-4">
+        <i class="fas fa-history me-2"></i>Auditoria
+    </h6>
+
+    <div class="bg-light p-3 rounded small">
+        <div class="row">
+            <div class="col-6 border-end">
+                <label asp-for="CreatedAt" class="fw-bold d-block">Criado em:</label>
+                <span>@Model.CreatedAt.ToString("g")</span><br>
+                <small class="text-muted">Por: @Model.CreatedBy</small>
+            </div>
+            <div class="col-6 ps-3">
+                @if (Model.LastModifiedAt.HasValue)
+                {
+                    <label asp-for="LastModifiedAt" class="fw-bold d-block">Modificado em:</label>
+                    <span>@Model.LastModifiedAt?.ToString("g")</span>
+
+                    <br>
+                    <small class="text-muted">Por: @Model.LastModifiedBy</small>
+                }
+                else
+                {
+                    <span class="text-muted fst-italic">Sem modificações.</span>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2 mt-4">
+        <div class="col-12">
+            <div class="btn-group float-end" role="group">
+                <button type="button" class="btn btn-outline-danger text-muted text-decoration-none" data-bs-dismiss="offcanvas" title="Fechar painel">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
