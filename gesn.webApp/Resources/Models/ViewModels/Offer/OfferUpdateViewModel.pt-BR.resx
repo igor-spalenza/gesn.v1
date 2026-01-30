@@ -261,4 +261,7 @@
   <data name="Offer_Categories_placeholder" xml:space="preserve">
     <value>Categoria</value>
   </data>
+  <data name="Offer_AssemblyInstructions_placeholder" xml:space="preserve">
+    <value>Instruções de preparo...</value>
+  </data>
 </root>

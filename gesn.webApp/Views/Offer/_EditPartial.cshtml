@@ -93,11 +93,11 @@
         <div class="bg-light p-3 rounded small opacity-75">
             <div class="row">
                 <div class="col-6 border-end">
-                    <span class="fw-bold d-block text-muted">Criado em:</span>
+                    <label asp-for="CreatedAt" class="form-label small text-muted mb-1"></label>
                     <span>@Model.CreatedAt.ToString("g")</span>
                 </div>
                 <div class="col-6 ps-3">
-                    <span class="fw-bold d-block text-muted">Última Modificação:</span>
+                    <label asp-for="LastModifiedAt" class="form-label small text-muted mb-1"></label>
                     <span>@(DateTime.MinValue != Model.LastModifiedAt ? Model.LastModifiedAt.ToString("g") : "-")</span>
                 </div>
             </div>
@@ -106,12 +106,15 @@
         <div class="row g-2 mt-4">
             <div class="col-12">
                 <div class="float-end">
-                    <button type="button" class="btn btn-sm btn-outline-secondary me-2" data-bs-dismiss="offcanvas">
-                        Cancelar
-                    </button>
-                    <button type="submit" class="btn btn-sm btn-primary">
-                        <i class="fas fa-save me-1"></i>Salvar Alterações
-                    </button>
+                    <div class="btn-group" role="group">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-save"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-sm btn-outline-danger" title="Excluir">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
