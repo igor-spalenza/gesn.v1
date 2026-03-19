@@ -1,0 +1,42 @@
+@using gesn.webApp.Models.Enums.Global
+@using gesn.webApp.Models.ViewModels.Offer
+@model OfferHierarchyUpdateViewModel
+
+<form asp-action="Edit" method="post" id="formEditHierarchy">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label fw-bold">Nome da Hierarquia</label>
+        <input asp-for="Name" class="form-control" placeholder="Digite o nome..." />
+        <span asp-validation-for="Name" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label fw-bold">Descrição</label>
+        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Detalhes da hierarquia..."></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="StateCode" class="form-label fw-bold">Status da Hierarquia</label>
+        <select asp-for="StateCode" class="form-select" asp-items="Html.GetEnumSelectList<EObjectState>()">
+        </select>
+        <span asp-validation-for="StateCode" class="text-danger small"></span>
+    </div>
+
+    <div class="row g-2 mt-4">
+        <div class="col-12">
+            <div class="btn-group float-end" role="group">
+                <button type="submit" class="btn btn-outline-primary wtext-muted text-decoration-none" title="Salvar alterações">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+                <button type="button" class="btn btn-outline-danger text-muted text-decoration-none" data-bs-dismiss="offcanvas" title="Fechar painel">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
