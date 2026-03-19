@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-ASP.NET Core 8.0 MVC web application for business management (offers, sales, production, HR, financial).
+ASP.NET Core 8.0 MVC web application implementing an ERP with 6 domains: **Offer**, **Sales** (CRM), **Production** (MRP), **Store** (SCM), **HumanResource** (HRMS), **Financial** (FMS).
 Uses SQLite with Dapper ORM, FluentMigrator for migrations, and Razor views.
 
 **Language:** C# (.NET 8.0) | **Default locale:** pt-BR | **Comments/messages:** Portuguese
@@ -29,7 +29,7 @@ gesn.webApp/
 ├── Areas/Identity/                 # Authentication (ASP.NET Identity + Dapper)
 ├── Models/
 │   ├── Entities/Base/Entity.cs     # Base entity (all entities inherit this)
-│   ├── Entities/{Domain}/          # Domain entities (Global, Offer, Sales, Production, etc.)
+│   ├── Entities/{Domain}/          # 6 domains: Offer, Sales (CRM), Production (MRP), Store (SCM), HumanResource (HRMS), Financial (FMS) + Global (shared)
 │   ├── ViewModels/{Domain}/        # ViewModels per domain
 │   └── Enums/                      # Enumerations
 ├── Interfaces/
@@ -140,5 +140,5 @@ Client-side libs managed via LibMan (`libman.json`): DataTables, Select2, Toastr
 
 - No test project exists yet
 - Google Workspace integration is configured but mostly commented out
-- Several domain modules (Sales, Production) have entities defined but services are commented out in DI
+- Several domain modules (Sales, Production, Store, HumanResource, Financial) have entities defined but services are commented out in DI — only Offer and Global (Category, Type) are fully wired
 - Authorization uses claim-based policies (e.g., `"usuarios:gerenciar"`, `"clientes:gerenciar"`)
