@@ -22,6 +22,11 @@ namespace gesn.webApp.Infrastructure.FluentValidation
             #region Offer Validators
             services.AddValidatorsFromAssemblyContaining<OfferUpdateViewModelValidator>();
             #endregion
+
+            #region OfferHierarchy Validators
+            services.AddValidatorsFromAssemblyContaining<OfferHierarchyInsertViewModelValidator>();
+            services.AddValidatorsFromAssemblyContaining<OfferHierarchyUpdateViewModelValidator>();
+            #endregion
             return services;
         }
     }

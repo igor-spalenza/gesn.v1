@@ -28,6 +28,8 @@ namespace gesn.webApp.Infrastructure.Configuration
             //Offer
             services.AddScoped<IOfferService, OfferServices>();
             services.AddScoped<IOfferRepository, OfferRepository>();
+            services.AddScoped<IOfferHierarchyService, OfferHierarchyServices>();
+            services.AddScoped<IOfferHierarchyRepository, OfferHierarchyRepository>();
 
             //Global
             services.AddScoped<ICategoryServices, CategoryServices>();
